@@ -1,14 +1,5 @@
-import { createContext, useEffect, useState, ReactNode } from "react"
+import { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from "react"
 import authService from "@/services/auth.services"
-
-interface AuthContextType {
-    user: any // *to do: replace 'any' with more specific type according to user model when created
-    setUser: (user: any) => void
-    authenticateUser: () => void
-    storeToken: (token: string) => void
-    logout: () => void
-    isLoading: boolean
-}
 
 interface UserData {
     id: string
@@ -16,10 +7,36 @@ interface UserData {
     email: string
 }
 
-const AuthContext = createContext<AuthContextType | null>(null)
+interface AuthContextInterface {
+    user: UserData
+    setUser: Dispatch<SetStateAction<UserData>>
+    authenticateUser: () => void
+    storeToken: (token: string) => void
+    logout: () => void
+    isLoading: boolean
+}
 
-const AuthProviderWrapper = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<any>(null) // *same as above
+const defaultState = {
+    user: {
+        id: '',
+        name: '',
+        email: '',
+    },
+    setUser: (user: UserData) => { }
+} as AuthContextInterface
+
+const AuthContext = createContext(defaultState)
+
+type AuthProviderProps = {
+    children: ReactNode
+}
+
+const AuthProviderWrapper = ({ children }: AuthProviderProps) => {
+    const [user, setUser] = useState<UserData>({
+        id: '',
+        name: '',
+        email: '',
+    })
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
@@ -36,7 +53,7 @@ const AuthProviderWrapper = ({ children }: { children: ReactNode }) => {
 
     const logout = () => {
         setIsLoading(false)
-        setUser(null)
+        setUser(defaultState.user)
         removeToken()
     }
 
@@ -59,11 +76,11 @@ const AuthProviderWrapper = ({ children }: { children: ReactNode }) => {
 
     return (
         <AuthContext.Provider
-        value= {{ user, authenticateUser, storeToken, logout, isLoading }
-}
+            value={{ user, setUser, authenticateUser, storeToken, logout, isLoading }
+            }
         >
-    { children }
-    </AuthContext.Provider>
+            {children}
+        </AuthContext.Provider>
     )
 }
 
