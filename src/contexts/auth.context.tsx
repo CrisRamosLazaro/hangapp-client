@@ -1,15 +1,11 @@
 import { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from "react"
 import authService from "@/services/auth.services"
+import { UserAuthData } from "types/user"
 
-export interface UserData {
-    id: string
-    name: string
-    email: string
-}
 
 interface AuthContextInterface {
-    user: UserData | null
-    setUser: Dispatch<SetStateAction<UserData | null>>
+    user: UserAuthData | null
+    setUser: Dispatch<SetStateAction<UserAuthData | null>>
     authenticateUser: () => void
     storeToken: (token: string) => void
     logout: () => void
@@ -32,7 +28,7 @@ type AuthProviderProps = {
 }
 
 const AuthProviderWrapper = ({ children }: AuthProviderProps) => {
-    const [user, setUser] = useState<UserData | null>(null)
+    const [user, setUser] = useState<UserAuthData | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
@@ -60,7 +56,7 @@ const AuthProviderWrapper = ({ children }: AuthProviderProps) => {
         if (token) {
             authService
                 .verify(token)
-                .then(({ data }: { data: UserData }) => {
+                .then(({ data }: { data: UserAuthData }) => {
                     setUser(data)
                     setIsLoading(false)
                 })

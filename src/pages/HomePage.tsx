@@ -22,7 +22,7 @@ const HomePage = () => {
 
     return (
 
-        <div className='flex flex-col justify-center items-center h-screen'>
+        <div className='flex flex-col justify-center items-center h-full'>
             <h1 className='py-4'>HangApp</h1>
             <h4 className='py-4'>Hangout. Make Friends.</h4>
             <div className='rounded py-4 home-container' >

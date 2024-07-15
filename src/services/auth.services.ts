@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
-import { UserData } from '@/contexts/auth.context'
+import { SignupData, LoginData } from 'types/user'
 
 class AuthService {
 
@@ -23,11 +23,11 @@ class AuthService {
         })
     }
 
-    signup(userData: UserData) {
+    signup(userData: SignupData) {
         return this.api.post('/signup', userData)
     }
 
-    login(userData: UserData) {
+    login(userData: LoginData) {
         return this.api.post('/login', userData)
     }
 

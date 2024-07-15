@@ -1,0 +1,123 @@
+import { useContext, useState, ChangeEvent, FormEvent } from "react"
+import { useNavigate } from 'react-router-dom'
+import authService from '@/services/auth.services'
+// import uploadServices from '@/services/upload.services'
+import { SignupData } from "types/user"
+import { ErrorMessages } from "types/errors"
+import userFields from "@/consts/userFields"
+import FormField from "./FormField"
+
+const SignupForm: React.FC = () => {
+
+    const [signupData, setSignupData] = useState<SignupData>({
+        name: '',
+        lastName: '',
+        email: '',
+        password: '',
+        avatar: '',
+    })
+
+    const [loadingAvatar, setloadingAvatar] = useState(false)
+    const [errorMessages, setErrorMessages] = useState<ErrorMessages>({})
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [confirmPasswordTouched, setConfirmPasswordTouched] = useState(false)
+
+    const navigate = useNavigate()
+
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { value, name } = e.target
+        setSignupData({ ...signupData, [name]: value })
+    }
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+
+        e.preventDefault()
+
+        authService
+            .signup(signupData)
+            .then(({ data }) => navigate('/login'))
+            .catch(err => { setErrorMessages(err.response.data.errorMessages) })
+    }
+
+    // const handleFileUpload = e => {
+
+    //    // google cloud services or AWS
+    // }
+
+
+    return (
+        <div>
+            <div className="p-4 border border-gray-200 rounded-lg shadow-md">
+
+                <form onSubmit={handleSubmit}>
+
+                    {userFields.map(field => {
+                        const { label, htmlFor, placeholder, type, autoComplete, id, placeholderIconLight, placeholderIconDark } = field
+
+                        return (
+                            <FormField
+                                key={id}
+                                label={label}
+                                htmlFor={htmlFor}
+                                placeholder={placeholder}
+                                type={type}
+                                autoComplete={autoComplete}
+                                value={signupData[id]}
+                                name={id}
+                                id={id}
+                                onChange={handleInputChange}
+                                placeholderIconLight={placeholderIconLight}
+                                placeholderIconDark={placeholderIconDark}
+                                error={errorMessages[id]}
+                            />
+                        )
+                    })}
+
+                    <FormField
+                        label={'password_confirm'}
+                        htmlFor='confirmPassword'
+                        placeholder={'password_confirm'}
+                        type="password"
+                        autoComplete="new-password"
+                        value={confirmPassword}
+                        name="confirmPassword"
+                        id="confirmPassword"
+                        onChange={e => {
+                            if (!confirmPasswordTouched) setConfirmPasswordTouched(true)
+                            setConfirmPassword(e.target.value)
+                        }}
+                        placeholderIconLight='placeholder-dark-grafitti bg-password-input-light'
+                        placeholderIconDark='placeholder-white bg-password-input-dark'
+                        error={errorMessages.confirmPassword}
+                    />
+
+                    {/* <div className="mb-4 flex flex-col items-start p-2">
+                        <label htmlFor="image" className="mb-2">Password:</label>
+                        <input
+                            type="file"
+                            value={avatar}
+                            name="image"
+                            onChange={handleFileUpload}
+                            className="w-full rounded-md"
+                        />
+                    </div> */}
+
+
+                    <div className="d-grid ">
+                        <button
+                            className="bg-yellow-500 hover:bg-yellow-600 w-1/2 rounded p-1"
+                            disabled={loadingAvatar}
+                            type="submit"
+                        >
+                            {loadingAvatar ? 'LOADING IMAGE...' : 'SIGNUP'}
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    )
+}
+
+
+export default SignupForm

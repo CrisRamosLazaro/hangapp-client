@@ -3,6 +3,9 @@
 body {
   background-color: #f1f1f1;
   color: #1f1f1f;
+  max-height: 100vh;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
 }
 
 #root {
