@@ -1,14 +1,13 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
-import { UserData } from '@/contexts/auth.context'
 
-class AuthService {
+class UserService {
 
     private api: AxiosInstance
 
     constructor() {
 
         this.api = axios.create({
-            baseURL: `${import.meta.env.VITE_API_URL}/auth`
+            baseURL: `${process.env.REACT_APP_API_URL}/users`
         })
 
         this.api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
@@ -23,19 +22,24 @@ class AuthService {
         })
     }
 
-    signup(userData: UserData) {
-        return this.api.post('/signup', userData)
+    getAllUsers() {
+        return this.api.get(`/getAllUsers`)
+
+    }
+    getOneUser(id: string) {
+        return this.api.get(`/${id}`)
     }
 
-    login(userData: UserData) {
-        return this.api.post('/login', userData)
+    editUser(id: string, editData: any) {
+        return this.api.put(`/${id}/edit`, editData)
     }
 
-    verify(token: string) {
-        return this.api.get('/verify', { headers: { Authorization: `Bearer ${token}` } })
+
+    deleteUser(id: string) {
+        return this.api.delete(`/${id}/delete`)
     }
 }
 
-const authService = new AuthService()
+const userService = new UserService()
 
-export default authService
+export default userService

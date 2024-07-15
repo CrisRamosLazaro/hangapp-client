@@ -1,29 +1,29 @@
 import { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from "react"
 import authService from "@/services/auth.services"
 
-interface UserData {
+export interface UserData {
     id: string
     name: string
     email: string
 }
 
 interface AuthContextInterface {
-    user: UserData
-    setUser: Dispatch<SetStateAction<UserData>>
+    user: UserData | null
+    setUser: Dispatch<SetStateAction<UserData | null>>
     authenticateUser: () => void
     storeToken: (token: string) => void
     logout: () => void
     isLoading: boolean
 }
 
-const defaultState = {
-    user: {
-        id: '',
-        name: '',
-        email: '',
-    },
-    setUser: (user: UserData) => { }
-} as AuthContextInterface
+const defaultState: AuthContextInterface = {
+    user: null,
+    setUser: () => { },
+    authenticateUser: () => { },
+    storeToken: () => { },
+    logout: () => { },
+    isLoading: false,
+}
 
 const AuthContext = createContext(defaultState)
 
@@ -32,11 +32,7 @@ type AuthProviderProps = {
 }
 
 const AuthProviderWrapper = ({ children }: AuthProviderProps) => {
-    const [user, setUser] = useState<UserData>({
-        id: '',
-        name: '',
-        email: '',
-    })
+    const [user, setUser] = useState<UserData | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
@@ -53,7 +49,7 @@ const AuthProviderWrapper = ({ children }: AuthProviderProps) => {
 
     const logout = () => {
         setIsLoading(false)
-        setUser(defaultState.user)
+        setUser(null)
         removeToken()
     }
 
@@ -68,7 +64,10 @@ const AuthProviderWrapper = ({ children }: AuthProviderProps) => {
                     setUser(data)
                     setIsLoading(false)
                 })
-                .catch(err => logout())
+                .catch(err => {
+                    console.error("Authentication error:", err)
+                    logout()
+                })
         } else {
             logout()
         }

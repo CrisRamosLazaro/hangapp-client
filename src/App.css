@@ -9,3 +9,24 @@ body {
   margin: 0 auto;
   text-align: center;
 }
+
+/* Custom CSS */
+.outline {
+  color: transparent;
+  -webkit-text-stroke: 1px #000;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* TailwindCSS animation utility */
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
