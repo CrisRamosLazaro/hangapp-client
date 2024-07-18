@@ -5,7 +5,7 @@ const HomePage = () => {
 
     const { user } = useContext(AuthContext)
 
-    const [placesData, setPlacesData] = useState()
+    const [spotsData, setSpotsData] = useState()
 
     // useEffect(() => {
     //     loadUserPlaces()

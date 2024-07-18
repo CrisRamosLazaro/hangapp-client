@@ -33,12 +33,12 @@ const Navigation = () => {
                     Home
                 </NavLink>
                 <NavLink
-                    to="/where"
+                    to="/spots"
                     className={({ isActive, isPending }) =>
                         isPending ? "pending" : isActive ? "text-blue-200" : ""
                     }
                 >
-                    Where
+                    Spots
                 </NavLink>
                 <NavLink
                     to="/everyone"

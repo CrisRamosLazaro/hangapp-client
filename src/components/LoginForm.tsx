@@ -35,7 +35,7 @@ const LoginForm: React.FC = () => {
             .then(({ data }) => {
                 storeToken(data.authToken)
                 authenticateUser()
-                navigate(`/where`)
+                navigate(`/spots`)
             })
             .catch(err => setErrorMessages(err.response.data.errorMessages))
     }

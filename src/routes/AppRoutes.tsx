@@ -3,6 +3,7 @@ import PrivateRoute from './PrivateRoutes'
 import HomePage from '@/pages/HomePage'
 import SignupPage from '@/pages/SignupPage'
 import LoginPage from '@/pages/LoginPage'
+import SpotsPage from '@/pages/SpotsPage'
 
 const AppRoutes = () => {
 
@@ -12,6 +13,8 @@ const AppRoutes = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
+
+            <Route path="/spots" element={<SpotsPage />} />
 
             <Route element={<PrivateRoute />}>
 
