@@ -7,8 +7,7 @@ const userFields = [
         type: "email",
         autoComplete: "username",
         id: "email",
-        placeholderIconLight: 'placeholder-dark-grafitti bg-email-input-light',
-        placeholderIconDark: 'placeholder-white bg-email-input-dark',
+        placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
     },
     {
         label: 'avatar',
@@ -17,8 +16,7 @@ const userFields = [
         type: "file",
         autoComplete: "off",
         id: "avatar",
-        placeholderIconLight: 'placeholder-dark-grafitti bg-phone-input-light',
-        placeholderIconDark: 'placeholder-white bg-phone-input-dark',
+        placeholderIcon: 'placeholder-dark-grafitti bg-person-input-light',
     },
     {
         label: 'firstName',
@@ -27,8 +25,7 @@ const userFields = [
         type: "text",
         autoComplete: "given-name",
         id: "firstName",
-        placeholderIconLight: 'placeholder-dark-grafitti bg-person-input-light',
-        placeholderIconDark: 'placeholder-white bg-person-input-dark',
+        placeholderIcon: 'placeholder-dark-grafitti bg-person-input-light',
     },
     {
         label: 'lastName',
@@ -37,8 +34,7 @@ const userFields = [
         type: "text",
         autoComplete: "family-name",
         id: "lastName",
-        placeholderIconLight: 'placeholder-dark-grafitti bg-person-input-light',
-        placeholderIconDark: 'placeholder-white bg-person-input-dark',
+        placeholderIcon: 'placeholder-dark-grafitti bg-person-input-light',
     },
     {
         label: 'password',
@@ -47,8 +43,7 @@ const userFields = [
         type: "password",
         autoComplete: "new-password",
         id: "password",
-        placeholderIconLight: 'placeholder-dark-grafitti bg-password-input-light',
-        placeholderIconDark: 'placeholder-white bg-password-input-dark',
+        placeholderIcon: 'placeholder-dark-grafitti bg-password-input-light',
     }
 ]
 

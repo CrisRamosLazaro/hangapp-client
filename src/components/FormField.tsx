@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FormFieldType } from 'types/formField'
 import ErrorMessage from "@/components/ErrorMessage"
 
-const FormField = ({ label, htmlFor, placeholder, placeholderIconLight, placeholderIconDark, type, value, name, id, autoComplete, onChange, error }: FormFieldType) => {
+const FormField = ({ label, htmlFor, placeholder, placeholderIcon, type, value, name, id, autoComplete, onChange, error }: FormFieldType) => {
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
@@ -16,7 +16,7 @@ const FormField = ({ label, htmlFor, placeholder, placeholderIconLight, placehol
             <div className="relative">
                 <input
                     className={`w-full bg-transparent border-none shadow-md outline-none p-2 rounded-md 
-                            bg-no-repeat bg-right-10-center bg-20 focus:bg-gray-600 focus:bg-opacity-50 ${placeholderIconLight}
+                            bg-no-repeat bg-right-10-center bg-20 focus:bg-gray-600 focus:bg-opacity-50 ${placeholderIcon}
                            `
                     }
                     placeholder={placeholder}

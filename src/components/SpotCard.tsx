@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
-import { SpotCardProps } from 'types/spot'
+import { SpotData } from 'types/spot'
 
-const SpotCard: React.FC<SpotCardProps> = ({ address, description, photoReference, name, userRating, _id, owner }) => {
+const SpotCard: React.FC<SpotData> = ({ address, description, photoReference, name, userRating, _id }) => {
 
     return (
         <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">

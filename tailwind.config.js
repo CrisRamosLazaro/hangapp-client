@@ -20,7 +20,7 @@ export default {
         left: 'left 1s infinite ease-in-out',
         right: 'right 1.1s infinite ease-in-out',
       },
-      backgroundImage: theme => ({
+      backgroundImage: ({
         'email-input-light': "url('/src/assets/images/email-envelope.png')",
         'email-input-dark': "url('/src/assets/images/email-envelope-darkmode.png')",
         'password-input-light': "url('/src/assets/images/padlock-password.png')",
@@ -34,8 +34,27 @@ export default {
         "calendar-input-light": "url('/src/assets/images/calendar.png)",
         "calendar-input-dark": "url('/src/assets/images/calendar-darkmode.png)"
       }),
+      backgroundSize: {
+        '20': '20px',
+      },
+      backgroundPosition: {
+        'right-10-center': 'right 10px center',
+      },
+      boxShadow: {
+        'solid-black': '10px 10px 0px 0px rgba(0,0,0,1)',
+      },
     },
   },
-  plugins: [],
+  variants: {
+    extend: {
+      textColor: ['placeholder'],
+      borderColor: ['focus']
+    },
+  },
+  plugins: [
+    require('@tailwindcss/forms')({
+      strategy: 'class',
+    }),
+  ]
 }
 

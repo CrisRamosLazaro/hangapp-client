@@ -7,7 +7,7 @@ class SpotsService {
     constructor() {
 
         this.api = axios.create({
-            baseURL: `${process.env.REACT_APP_API_URL}/places`
+            baseURL: `${import.meta.env.VITE_API_URL}/spots`
         })
 
         this.api.interceptors.request.use((config: InternalAxiosRequestConfig) => {

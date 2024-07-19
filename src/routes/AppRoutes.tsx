@@ -4,6 +4,7 @@ import HomePage from '@/pages/HomePage'
 import SignupPage from '@/pages/SignupPage'
 import LoginPage from '@/pages/LoginPage'
 import SpotsPage from '@/pages/SpotsPage'
+import CreateSpotPage from '@/pages/CreateSpotPage'
 
 const AppRoutes = () => {
 
@@ -14,10 +15,10 @@ const AppRoutes = () => {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
 
-            <Route path="/spots" element={<SpotsPage />} />
 
             <Route element={<PrivateRoute />}>
-
+                <Route path="/spots" element={<SpotsPage />} />
+                <Route path="/create-spot" element={<CreateSpotPage />} />
 
             </Route>
 

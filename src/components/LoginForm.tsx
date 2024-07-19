@@ -49,7 +49,7 @@ const LoginForm: React.FC = () => {
                     {userFields
                         .filter(field => field.id === "email" || field.id === "password")
                         .map(field => {
-                            const { label, htmlFor, placeholder, type, autoComplete, id, placeholderIconLight, placeholderIconDark } = field
+                            const { label, htmlFor, placeholder, type, autoComplete, id, placeholderIcon } = field
 
                             return (
                                 <FormField
@@ -63,8 +63,7 @@ const LoginForm: React.FC = () => {
                                     name={id}
                                     id={id}
                                     onChange={handleInputChange}
-                                    placeholderIconLight={placeholderIconLight}
-                                    placeholderIconDark={placeholderIconDark}
+                                    placeholderIcon={placeholderIcon}
                                     error={errorMessages[id]}
                                 />
                             )

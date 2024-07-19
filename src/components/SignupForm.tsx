@@ -52,7 +52,7 @@ const SignupForm: React.FC = () => {
                 <form onSubmit={handleSubmit}>
 
                     {userFields.map(field => {
-                        const { label, htmlFor, placeholder, type, autoComplete, id, placeholderIconLight, placeholderIconDark } = field
+                        const { label, htmlFor, placeholder, type, autoComplete, id, placeholderIcon } = field
 
                         return (
                             <FormField
@@ -66,8 +66,7 @@ const SignupForm: React.FC = () => {
                                 name={id}
                                 id={id}
                                 onChange={handleInputChange}
-                                placeholderIconLight={placeholderIconLight}
-                                placeholderIconDark={placeholderIconDark}
+                                placeholderIcon={placeholderIcon}
                                 error={errorMessages[id]}
                             />
                         )
@@ -86,8 +85,7 @@ const SignupForm: React.FC = () => {
                             if (!confirmPasswordTouched) setConfirmPasswordTouched(true)
                             setConfirmPassword(e.target.value)
                         }}
-                        placeholderIconLight='placeholder-dark-grafitti bg-password-input-light'
-                        placeholderIconDark='placeholder-white bg-password-input-dark'
+                        placeholderIcon='placeholder-dark-grafitti bg-password-input-light'
                         error={errorMessages.confirmPassword}
                     />
 

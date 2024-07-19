@@ -7,7 +7,7 @@ class UserService {
     constructor() {
 
         this.api = axios.create({
-            baseURL: `${process.env.REACT_APP_API_URL}/users`
+            baseURL: `${import.meta.env.VITE_API_URL}/users`
         })
 
         this.api.interceptors.request.use((config: InternalAxiosRequestConfig) => {

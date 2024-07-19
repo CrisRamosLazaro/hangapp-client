@@ -1,9 +1,10 @@
 export type FormFieldType = {
+    component?: string
+    optionsArr?: Array<string>
     label: string
     htmlFor: string
     placeholder: string
-    placeholderIconLight: string
-    placeholderIconDark: string
+    placeholderIcon?: string
     type: string
     value: string
     name: string
@@ -12,4 +13,3 @@ export type FormFieldType = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     error?: string
 }
-
