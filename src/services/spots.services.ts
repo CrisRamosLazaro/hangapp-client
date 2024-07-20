@@ -27,7 +27,7 @@ class SpotsService {
     }
 
     getAllSpots() {
-        return this.api.get('/getAllSpots')
+        return this.api.get('/get-all-spots')
     }
 
     getOneSpot(spot_id: string) {

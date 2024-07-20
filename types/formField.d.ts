@@ -13,3 +13,8 @@ export type FormFieldType = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     error?: string
 }
+
+export interface SelectFormFieldType
+    extends Omit<FormFieldType, 'optionsArr'> {
+    optionsArr: Array<string>
+}

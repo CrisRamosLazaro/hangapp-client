@@ -1,11 +1,12 @@
-import { useContext, useState, ChangeEvent, FormEvent } from "react"
+import { useContext, useState, useEffect, ChangeEvent, FormEvent } from "react"
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from "@/contexts/auth.context"
 import authService from '@/services/auth.services'
+import isTokenValid from "@/utils/token-validation.utils"
 import { LoginData } from 'types/user'
 import { ErrorMessages } from "types/errors"
 import userFields from "@/consts/userFields"
-import FormField from "./FormField"
+import FormField from "@/components/form-fields/FormField"
 
 
 const LoginForm: React.FC = () => {
@@ -20,6 +21,13 @@ const LoginForm: React.FC = () => {
     const navigate = useNavigate()
 
     const { authenticateUser, storeToken } = useContext(AuthContext)
+
+    useEffect(() => {
+        const token = localStorage.getItem('authToken')
+        if (token && !isTokenValid(token)) {
+            localStorage.removeItem('authToken')
+        }
+    }, [])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target

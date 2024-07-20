@@ -18,7 +18,7 @@ const AppRoutes = () => {
 
             <Route element={<PrivateRoute />}>
                 <Route path="/spots" element={<SpotsPage />} />
-                <Route path="/create-spot" element={<CreateSpotPage />} />
+                <Route path="/spots/create-spot" element={<CreateSpotPage />} />
 
             </Route>
 

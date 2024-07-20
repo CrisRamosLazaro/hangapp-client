@@ -1,9 +1,9 @@
-// import CreateSpotForm from ''
+import CreateSpotForm from '@/components/forms/CreateSpotForm'
 
 const CreateSpotPage = () => {
     return (
         <div className='flex flex-col justify-center items-center h-full'>
-            {/* <CreateSpotForm /> */}
+            <CreateSpotForm />
         </div>
     )
 }

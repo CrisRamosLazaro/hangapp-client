@@ -5,7 +5,7 @@ import authService from '@/services/auth.services'
 import { SignupData } from "types/user"
 import { ErrorMessages } from "types/errors"
 import userFields from "@/consts/userFields"
-import FormField from "./FormField"
+import FormField from "@/components/form-fields/FormField"
 
 const SignupForm: React.FC = () => {
 
