@@ -6,20 +6,6 @@ export default {
       fontFamily: {
         poppins: ["'Poppins'", 'sans-serif']
       },
-      keyframes: {
-        left: {
-          '0%, 100%': { transform: 'translateY(10px)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-        right: {
-          '0%, 100%': { transform: 'translateY(-10px)' },
-          '50%': { transform: 'translateY(10px)' },
-        },
-      },
-      animation: {
-        left: 'left 1s infinite ease-in-out',
-        right: 'right 1.1s infinite ease-in-out',
-      },
       backgroundImage: ({
         'email-input-light': "url('/src/assets/images/email-envelope.png')",
         'email-input-dark': "url('/src/assets/images/email-envelope-darkmode.png')",

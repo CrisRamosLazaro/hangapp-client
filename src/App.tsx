@@ -5,7 +5,7 @@ import './App.css'
 
 const App: React.FC = () => {
   return (
-    <div className="flex flex-col gap-4 h-screen">
+    <div className="flex flex-col gap-4 min-h-screen">
       <Navigation />
       <div className="flex-grow">
         <AppRoutes />

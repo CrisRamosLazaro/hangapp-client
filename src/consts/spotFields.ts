@@ -4,7 +4,6 @@ const spotFields = [
 
     {
         label: 'name',
-        htmlFor: "name",
         placeholder: 'name',
         type: "text",
         autoComplete: "name",
@@ -13,7 +12,6 @@ const spotFields = [
     },
     {
         label: 'description',
-        htmlFor: "description",
         placeholder: 'description',
         type: "text",
         autoComplete: "description",
@@ -22,7 +20,6 @@ const spotFields = [
     },
     {
         label: 'image',
-        htmlFor: "spotImg",
         placeholder: 'image',
         // type: "file",
         type: "text",
@@ -43,7 +40,6 @@ const spotFields = [
         component: "select",
         optionsArr: spotCategories,
         label: 'category',
-        htmlFor: "category",
         placeholder: 'category',
         type: "text",
         autoComplete: "category",
@@ -52,7 +48,6 @@ const spotFields = [
     },
     {
         label: 'phone number',
-        htmlFor: "phone",
         placeholder: 'phone',
         type: "tel",
         autoComplete: "phone",
@@ -61,7 +56,6 @@ const spotFields = [
     },
     {
         label: 'open hours',
-        htmlFor: "openHours",
         placeholder: 'open hours',
         type: "text",
         autoComplete: "openHours",
@@ -70,7 +64,6 @@ const spotFields = [
     },
     {
         label: 'city',
-        htmlFor: "city",
         placeholder: 'city',
         type: "text",
         autoComplete: "city",

@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, ChangeEvent, FormEvent } from "react"
+import { useState, useContext, useEffect, ChangeEvent, FormEvent, KeyboardEvent } from "react"
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '@/contexts/auth.context'
 import spotsService from "@/services/spots.services"
@@ -13,40 +13,64 @@ const CreateSpotForm = () => {
 
     const { user } = useContext(AuthContext)
 
-    useScript(url) // how can I have a frontend url that will contain my api key exposed in the browser?!?
-
-    const navigate = useNavigate()
-
-    const [spotData, setSpotData] = useState<SpotData>({
+    const initialValues: SpotData = {
         placeId: '',
         name: '',
         description: '',
         spotImg: '',
-        photoReference: '',
-        category: '',
+        categories: [],
         phone: '',
+        address: {
+            city: '',
+            streetAddress: '',
+            location: {
+                type: 'Point',
+                coordinates: []
+            }
+        },
         openHours: '',
         userRating: '',
         userReview: '',
         owner: user!._id,
         comment: '',
-    })
+    }
 
-    const [address, setAddress] = useState<string>()
+    const navigate = useNavigate()
+
+    const [spotData, setSpotData] = useState<SpotData>(initialValues)
+
+    useEffect(() => {
+        console.log("CHANGE?", spotData)
+    }, [spotData])
+
+    const [googlePlace, setGooglePlace] = useState<string>('')
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+
         const { name, value } = e.target
         setSpotData({ ...spotData, [name]: value })
     }
 
-    const handleChange = (address: string) => setAddress(address)
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+            setSpotData(initialValues)
+        }
+    };
 
-    const handleSelect = (address: string) => {
-        geocodeByAddress(address)
-            .then(results => console.log("MIRACLE IF IT WORKS", results))
-            // .then(results => getLatLng(results[0]))
-            .then(latLng => console.log('Success', latLng))
-            .catch(error => console.error('Error', error));
+    const handleChange = (suggestion: string) => setGooglePlace(suggestion)
+
+    const handleSelect = (suggestion: string) => {
+        setGooglePlace(suggestion)
+        geocodeByAddress(googlePlace)
+            .then(results => {
+                const { place_id } = results[0]
+                return spotsService.getOneSpot(place_id)
+            })
+            .then(res => {
+                const formattedPlace = res.data
+                setSpotData({ ...spotData, ...formattedPlace })
+            })
+            .catch(error => console.error('Error in handleSelect', error))
     }
 
     const fetchPredictions = async (input: string) => {
@@ -70,36 +94,40 @@ const CreateSpotForm = () => {
     return (
 
         <div className="flex justify-center md:w-5/6">
-            <div className="md:w-1/4 p-4">
+            <div className="p-4">
 
                 <form onSubmit={handleSubmit}>
 
                     <PlacesAutocomplete
-                        value={address}
+                        value={googlePlace}
                         onChange={handleChange}
                         onSelect={handleSelect}
                     >
                         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                            <div>
+
+                            <div className="mb-3 w-full">
                                 <input
                                     {...getInputProps({
                                         placeholder: 'Search Places ...',
-                                        className: '',
+                                        className: 'bg-transparent border-none shadow-md outline-none p-2 rounded-md w-full'
                                     })}
+                                    onKeyDown={handleKeyDown}
                                 />
-                                <div className="">
+                                <div className="shadow-md">
+
                                     {loading && <div>Loading...</div>}
-                                    {suggestions.map(suggestion => {
-                                        const className = suggestion.active
-                                            ? 'text-blue-500 g-gray-100 cursor-pointer'
-                                            : 'text-inherit';
+
+                                    {suggestions.map((suggestion, i) => {
+                                        const className = `text-left py-1 px-2 max-w-4/6 ${suggestion.active
+                                            ? 'text-yellow-700 g-gray-100 cursor-pointer'
+                                            : 'text-inherit'}`
+
+                                        const { key, ...suggestionItemProps } = getSuggestionItemProps(suggestion, {
+                                            className
+                                        })
 
                                         return (
-                                            <div
-                                                {...getSuggestionItemProps(suggestion, {
-                                                    className,
-                                                })}
-                                            >
+                                            <div key={i} {...suggestionItemProps}>
                                                 <span>{suggestion.description}</span>
                                             </div>
                                         )
@@ -110,7 +138,7 @@ const CreateSpotForm = () => {
                     </PlacesAutocomplete>
 
                     {spotFields.map(field => {
-                        const { label, htmlFor, placeholder, type, autoComplete, id, component, optionsArr } = field
+                        const { label, placeholder, type, autoComplete, id, component, optionsArr } = field
                         return (
 
                             component === 'select' ? (
@@ -129,18 +157,22 @@ const CreateSpotForm = () => {
                                 />
 
                             ) :
-                                (< FormField
-                                    key={id}
-                                    label={label}
-                                    htmlFor={htmlFor}
-                                    placeholder={placeholder}
-                                    type={type}
-                                    autoComplete={autoComplete}
-                                    value={spotData[id]}
-                                    name={id}
-                                    id={id}
-                                    onChange={handleInputChange}
-                                />)
+                                (<div key={id}>
+                                    < FormField
+
+                                        label={label}
+                                        htmlFor={id}
+                                        placeholder={placeholder}
+                                        type={type}
+                                        autoComplete={autoComplete}
+                                        value={spotData[id] || spotData.address?.[id] || ''}
+                                        name={id}
+                                        id={id}
+                                        onChange={handleInputChange}
+                                    />
+                                    {id === 'spotImg' && <img src={spotData[id]} />}
+                                </div>
+                                )
                         )
                     })}
 
@@ -156,6 +188,7 @@ const CreateSpotForm = () => {
                 </form>
 
             </div>
+
         </div>
 
     )

@@ -7,11 +7,13 @@ import { LoginData } from 'types/user'
 import { ErrorMessages } from "types/errors"
 import userFields from "@/consts/userFields"
 import FormField from "@/components/form-fields/FormField"
+import Loader from "@/components/Loader"
 
 
 const LoginForm: React.FC = () => {
 
     const [errorMessages, setErrorMessages] = useState<ErrorMessages>({})
+    const [isLoading, setIsLoading] = useState(false)
 
     const [loginData, setLoginData] = useState<LoginData>({
         email: '',
@@ -20,7 +22,7 @@ const LoginForm: React.FC = () => {
 
     const navigate = useNavigate()
 
-    const { authenticateUser, storeToken } = useContext(AuthContext)
+    const { user, authenticateUser, storeToken } = useContext(AuthContext)
 
     useEffect(() => {
         const token = localStorage.getItem('authToken')
@@ -29,28 +31,37 @@ const LoginForm: React.FC = () => {
         }
     }, [])
 
+    useEffect(() => {
+        if (user && isLoading) {
+            setIsLoading(false)
+            navigate(`/spots`)
+        }
+    }, [user, isLoading, navigate])
+
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target
         setErrorMessages(prevErrors => ({ ...prevErrors, [name]: '' }))
         setLoginData({ ...loginData, [name]: value })
     }
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        setIsLoading(true)
 
-        authService
-            .login(loginData)
-            .then(({ data }) => {
-                storeToken(data.authToken)
-                authenticateUser()
-                navigate(`/spots`)
-            })
-            .catch(err => setErrorMessages(err.response.data.errorMessages))
+        try {
+            const { data } = await authService.login(loginData)
+            storeToken(data.authToken)
+            authenticateUser()
+        } catch (err: any) {
+            setErrorMessages(err.response.data.errorMessages)
+        }
     }
 
     return (
         <div>
             <div className="p-4 border border-gray-200 rounded-lg shadow-md">
+
+                {isLoading && <Loader />}
 
                 <form onSubmit={handleSubmit}>
 

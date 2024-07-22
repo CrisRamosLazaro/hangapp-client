@@ -30,8 +30,8 @@ class SpotsService {
         return this.api.get('/get-all-spots')
     }
 
-    getOneSpot(spot_id: string) {
-        return this.api.get(`/get-one-spot/${spot_id}`)
+    getOneSpot(place_id: string) {
+        return this.api.get(`/get-one-spot/${place_id}`)
     }
 
     getUserSpots(user_id: string) {

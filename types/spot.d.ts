@@ -1,34 +1,26 @@
+interface Address {
+    city: string
+    streetAddress?: string
+    location: {
+        type: 'Point'
+        coordinates: number[]
+    }
+    [key: string]: any
+}
+
 export interface SpotData {
     placeId?: string
     name: string
     description: string
     spotImg?: string
-    photoReference?: string
-    category: string
+    // photoReference?: string[]
+    categories: string[]
     phone: string
     openHours: string
-    // address: {
-    //     city: string
-    //     streetAddress?: string
-    //     location: {
-    //         type: string
-    //         coordinates: number[]
-    //     }
-    // }
-    // location?: {
-    //     type: {
-    //         type: String,
-    //         enum: ['Point']
-    //         required: true
-    //     },
-    //     coordinates: {
-    //         type: [Number],
-    //         required: true
-    //     }
-    // }
+    address: Address
     userRating?: string
     userReview?: string
     owner: string
     comment?: string
-    [key: string]: string
+    [key: string]: any
 }

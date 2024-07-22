@@ -98,7 +98,7 @@ const Navigation = () => {
                             <nav>
                                 {renderNavList()}
 
-                                <NavLink to={`/profile/${user.id}`}>My Profile</NavLink>
+                                <NavLink to={`/profile/${user._id}`}>My Profile</NavLink>
 
                                 <button
                                     onClick={handleLogout}
@@ -129,25 +129,38 @@ const Navigation = () => {
                             </nav>
                     }
                 </div>
-                <nav className='hidden md:flex justify-between space-x-4 mr-2'>
-                    <NavLink
-                        to="/signup"
-                        className={({ isActive }) => isActive
-                            ? "hover:underline text-gray-500"
-                            : "hover:underline"}
-                    >
-                        Sign up
-                    </NavLink>
+                {user ? (
+                    <nav className='hidden md:flex justify-between space-x-4 mr-2'>
+                        <NavLink to={`/profile/${user._id}`}>My Profile</NavLink>
 
-                    <NavLink
-                        to="/login"
-                        className={({ isActive }) => isActive
-                            ? "hover:underline text-gray-500"
-                            : "hover:underline"}
-                    >
-                        Login
-                    </NavLink>
-                </nav>
+                        <button
+                            onClick={handleLogout}
+                            className="bg-transparent border-none p-0 cursor-pointer">
+                            Logout
+                        </button>
+                    </nav>
+                ) : (
+                    <nav className='hidden md:flex justify-between space-x-4 mr-2'>
+                        <NavLink
+                            to="/signup"
+                            className={({ isActive }) => isActive
+                                ? "hover:underline text-gray-500"
+                                : "hover:underline"}
+                        >
+                            Sign up
+                        </NavLink>
+
+                        <NavLink
+                            to="/login"
+                            className={({ isActive }) => isActive
+                                ? "hover:underline text-gray-500"
+                                : "hover:underline"}
+                        >
+                            Login
+                        </NavLink>
+                    </nav>
+                )
+                }
 
             </div>
         </header >
