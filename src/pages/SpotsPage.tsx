@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import spotsServices from '@/services/spots.services'
 import SpotCard from "@/components/SpotCard"
-import Loader from '@/components/Loader'
 import { SpotData } from 'types/spot'
 
 
@@ -19,6 +18,7 @@ const SpotsPage = () => {
         spotsServices
             .getAllSpots()
             .then(({ data }) => {
+                console.log("data from getAllSPOTS", data)
                 setSpotsData(data)
                 setSpotsDataBackup(data)
             })
@@ -29,7 +29,7 @@ const SpotsPage = () => {
     return (
 
         <div className='flex flex-col justify-center items-center w-full h-full'>
-            Destinations
+            <h1 className="text-2xl text-bold">Destinations</h1>
 
             <div className="flex flex-wrap justify-center w-5/6 mt-5">
 
@@ -37,9 +37,6 @@ const SpotsPage = () => {
                     spotsData.length === 0
                         ?
                         'No Data'
-                        // <div className="md:grid md:grid-cols-12">
-                        //     <Loader />
-                        // </div>
                         :
                         spotsData.map((spot, i) => {
                             return (

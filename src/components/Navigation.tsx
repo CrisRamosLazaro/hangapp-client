@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { Link, useNavigate, NavLink } from 'react-router-dom'
+import { Link, useNavigate, NavLink, useLocation } from 'react-router-dom'
 import { AuthContext } from '@/contexts/auth.context'
 import logo from '@/assets/logo-white.png'
 
@@ -9,6 +9,7 @@ const Navigation = () => {
     const { user, logout } = useContext(AuthContext)
 
     const navigate = useNavigate()
+    const location = useLocation()
 
     const [openNav, setOpenNav] = useState(false)
 
@@ -36,9 +37,12 @@ const Navigation = () => {
                 <NavLink
                     key={path}
                     to={path}
-                    className={({ isActive }) => isActive
-                        ? "block my-4 hover:underline text-gray-500"
-                        : "block my-4 hover:underline"}
+                    className={() => {
+                        const isExactMatch = location.pathname === path
+                        return isExactMatch
+                            ? "block my-4 hover:underline text-gray-500"
+                            : "block my-4 hover:underline"
+                    }}
                 >
                     {label}
                 </NavLink>

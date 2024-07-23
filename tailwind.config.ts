@@ -1,3 +1,5 @@
+import forms from '@tailwindcss/forms'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
@@ -38,7 +40,7 @@ export default {
     },
   },
   plugins: [
-    require('@tailwindcss/forms')({
+    forms({
       strategy: 'class',
     }),
   ]

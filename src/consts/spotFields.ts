@@ -13,7 +13,7 @@ const spotFields = [
     {
         label: 'description',
         placeholder: 'description',
-        type: "text",
+        type: "textarea",
         autoComplete: "description",
         id: "description",
         placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
@@ -21,27 +21,17 @@ const spotFields = [
     {
         label: 'image',
         placeholder: 'image',
-        // type: "file",
         type: "text",
         autoComplete: "off",
         id: "spotImg",
         placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
     },
-    // {
-    //     label: 'Photo Reference',
-    //     htmlFor: "photoReference",
-    //     placeholder: 'image',
-    //     type: "file",
-    //     autoComplete: "off",
-    //     id: "photoReference",
-    //     placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
-    // },
     {
-        component: "select",
+        component: "checkbox",
         optionsArr: spotCategories,
         label: 'category',
-        placeholder: 'category',
-        type: "text",
+        placeholder: 'categories',
+        type: "checkbox",
         autoComplete: "category",
         id: "category",
         placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
@@ -57,7 +47,7 @@ const spotFields = [
     {
         label: 'open hours',
         placeholder: 'open hours',
-        type: "text",
+        type: "textarea",
         autoComplete: "openHours",
         id: "openHours",
         placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
@@ -73,11 +63,3 @@ const spotFields = [
 ]
 
 export default spotFields
-
-// streetAaddress: '',
-// latitude: '',
-// longitude: '',
-// userRating: '',
-// userReview: '',
-// owner: '',
-// comments: '',

@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '@/contexts/auth.context'
 import spotsService from "@/services/spots.services"
 import FormField from "@/components/form-fields/FormField"
-import SelectFormField from "@/components/form-fields/SelectFormField"
+import CheckboxFormField from "@/components/form-fields/CheckBoxFormField"
 import spotFields from "@/consts/spotFields"
 import { SpotData } from "types/spot"
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
-import useScript from "@/hooks/useScript"
 
 const CreateSpotForm = () => {
 
@@ -38,17 +37,36 @@ const CreateSpotForm = () => {
     const navigate = useNavigate()
 
     const [spotData, setSpotData] = useState<SpotData>(initialValues)
+    const [dataUpdated, setDataUpdated] = useState(false)
+    const [googlePlace, setGooglePlace] = useState<string>('')
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
     useEffect(() => {
-        console.log("CHANGE?", spotData)
+        setDataUpdated(true)
     }, [spotData])
 
-    const [googlePlace, setGooglePlace] = useState<string>('')
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 
         const { name, value } = e.target
-        setSpotData({ ...spotData, [name]: value })
+
+        if (name.includes('.')) {
+            const [firstLevel, nested] = name.split('.')
+            setSpotData(prevState => ({
+                ...prevState,
+                [firstLevel]: {
+                    ...prevState[firstLevel],
+                    [nested]: value
+                }
+            }))
+        } else {
+            setSpotData({ ...spotData, [name]: value })
+        }
+    }
+
+    const handleCategoryChange = (selected: string[]) => {
+        setSelectedCategories(selected)
+        setSpotData({ ...spotData, categories: selected })
     }
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -59,24 +77,17 @@ const CreateSpotForm = () => {
 
     const handleChange = (suggestion: string) => setGooglePlace(suggestion)
 
-    const handleSelect = (suggestion: string) => {
-        setGooglePlace(suggestion)
-        geocodeByAddress(googlePlace)
-            .then(results => {
-                const { place_id } = results[0]
-                return spotsService.getOneSpot(place_id)
-            })
-            .then(res => {
-                const formattedPlace = res.data
-                setSpotData({ ...spotData, ...formattedPlace })
-            })
-            .catch(error => console.error('Error in handleSelect', error))
-    }
+    async function handleSelect(suggestion: string) {
 
-    const fetchPredictions = async (input: string) => {
-        const response = await fetch(`/api/places?input=${input}`)
-        const data = await response.json()
-        return data.predictions
+        try {
+            const results = await geocodeByAddress(suggestion)
+            const { place_id } = results[0]
+            const res = await spotsService.getOneSpot(place_id)
+            const formattedPlace = res.data
+            setSpotData({ ...spotData, ...formattedPlace })
+        } catch (error) {
+            console.error('Error in handleSelect', error)
+        }
     }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -141,23 +152,16 @@ const CreateSpotForm = () => {
                         const { label, placeholder, type, autoComplete, id, component, optionsArr } = field
                         return (
 
-                            component === 'select' ? (
-                                <SelectFormField
+                            component === 'checkbox' ? (
+                                <CheckboxFormField
                                     key={id}
-                                    label={label}
-                                    htmlFor={id}
-                                    id={id}
+                                    options={optionsArr}
+                                    selectedOptions={selectedCategories}
+                                    onChange={handleCategoryChange}
                                     placeholder={placeholder}
-                                    type={type}
-                                    autoComplete={autoComplete}
-                                    value={spotData[id] || ""}
-                                    optionsArr={optionsArr}
-                                    name={id}
-                                    onChange={handleInputChange}
                                 />
-
-                            ) :
-                                (<div key={id}>
+                            ) : (
+                                <div key={id}>
                                     < FormField
 
                                         label={label}
@@ -165,14 +169,14 @@ const CreateSpotForm = () => {
                                         placeholder={placeholder}
                                         type={type}
                                         autoComplete={autoComplete}
-                                        value={spotData[id] || spotData.address?.[id] || ''}
-                                        name={id}
+                                        value={id !== 'city' ? spotData[id] : spotData.address[id]}
+                                        name={id !== 'city' ? id : `address.${id}`}
                                         id={id}
                                         onChange={handleInputChange}
                                     />
                                     {id === 'spotImg' && <img src={spotData[id]} />}
                                 </div>
-                                )
+                            )
                         )
                     })}
 
@@ -187,9 +191,9 @@ const CreateSpotForm = () => {
 
                 </form>
 
-            </div>
+            </div >
 
-        </div>
+        </div >
 
     )
 }
