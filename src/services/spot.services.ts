@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
 
-class SpotsService {
+class SpotServices {
 
     private api: AxiosInstance
 
@@ -34,12 +34,12 @@ class SpotsService {
         return this.api.get(`/get-one-spot/${place_id}`)
     }
 
-    getUserSpots(user_id: string) {
-        return this.api.get(`/${user_id}/getUserSpots`)
+    getSpotFullInfo(spot_id: string) {
+        return this.api.get(`/${spot_id}/get-full-info`)
     }
 
-    getSpotInfo(spot_id: string) {
-        return this.api.get(`/${spot_id}/get-spot-info`)
+    getUserSpots(user_id: string) {
+        return this.api.get(`/${user_id}/getUserSpots`)
     }
 
     addFaveSpot(spot_id: string, user_id: string) {
@@ -60,6 +60,6 @@ class SpotsService {
 
 }
 
-const spotsService = new SpotsService()
+const spotServices = new SpotServices()
 
-export default spotsService
+export default spotServices

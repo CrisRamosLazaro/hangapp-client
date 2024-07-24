@@ -2,14 +2,14 @@ import { useContext, useState, ChangeEvent, FormEvent } from "react"
 import { useNavigate } from 'react-router-dom'
 import authService from '@/services/auth.services'
 // import uploadServices from '@/services/upload.services'
-import { SignupData } from "types/user"
+import { UserSignupData } from "types/user"
 import { ErrorMessages } from "types/errors"
 import userFields from "@/consts/userFields"
 import FormField from "@/components/form-fields/FormField"
 
 const SignupForm: React.FC = () => {
 
-    const [signupData, setSignupData] = useState<SignupData>({
+    const [signupData, setSignupData] = useState<UserSignupData>({
         name: '',
         lastName: '',
         email: '',
@@ -24,7 +24,7 @@ const SignupForm: React.FC = () => {
 
     const navigate = useNavigate()
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value, name } = e.target
         setSignupData({ ...signupData, [name]: value })
     }

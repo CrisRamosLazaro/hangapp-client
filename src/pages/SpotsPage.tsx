@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import spotsServices from '@/services/spots.services'
+import spotServices from '@/services/spot.services'
 import SpotCard from "@/components/SpotCard"
 import { SpotData } from 'types/spot'
 
@@ -15,10 +15,9 @@ const SpotsPage = () => {
     }, [])
 
     const loadUserSpots = () => {
-        spotsServices
+        spotServices
             .getAllSpots()
             .then(({ data }) => {
-                console.log("data from getAllSPOTS", data)
                 setSpotsData(data)
                 setSpotsDataBackup(data)
             })

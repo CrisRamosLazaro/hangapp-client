@@ -10,10 +10,19 @@ export interface LoginData {
     [key: string]: string
 }
 
-export interface SignupData {
+export interface UserSignupData {
     name: string
     email: string
     password: string
+    lastName: string,
+    avatar: string,
+    [key: string]: string
+
+}
+
+export interface User {
+    _id: string
+    firstName: string
     lastName: string,
     avatar: string,
     [key: string]: string

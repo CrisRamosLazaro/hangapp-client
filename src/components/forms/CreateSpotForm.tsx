@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect, ChangeEvent, FormEvent, KeyboardEvent } from "react"
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '@/contexts/auth.context'
-import spotsService from "@/services/spots.services"
+import spotsService from "@/services/spot.services"
 import FormField from "@/components/form-fields/FormField"
 import CheckboxFormField from "@/components/form-fields/CheckBoxFormField"
 import spotFields from "@/consts/spotFields"
@@ -27,7 +27,7 @@ const CreateSpotForm = () => {
                 coordinates: []
             }
         },
-        openHours: '',
+        openHours: [],
         userRating: '',
         userReview: '',
         owner: user!._id,
