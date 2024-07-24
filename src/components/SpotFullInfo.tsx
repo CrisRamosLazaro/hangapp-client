@@ -2,12 +2,21 @@ import { useContext, useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '@/contexts/auth.context'
 import { SpotDeetsData } from 'types/spot'
+import spotServices from '@/services/spot.services'
+import trashCan from '@/assets/icons/trash-can.svg'
+import GoogleMapsPage from '@/pages/GoogleMapsPage'
 
 const SpotFullInfo: React.FC<SpotDeetsData> = ({ name, spotImg, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
 
     const { user } = useContext(AuthContext)
-    const { id } = useParams()
+    const { spot_id } = useParams()
     const navigate = useNavigate()
+
+    const handleDelete = () => {
+        spotServices.deleteSpot(spot_id!)
+            .then(() => navigate('/spots'))
+            .catch(err => console.error(err))
+    }
 
     const deetsList = [
         { 'Description:': description },
@@ -20,9 +29,9 @@ const SpotFullInfo: React.FC<SpotDeetsData> = ({ name, spotImg, description, own
     return (
         <div className="flex flex-col p-4 rounded-lg shadow-md border border-gray-200 w-5/6">
 
-            <div className="w-full rounded-t-lg h-[350px] overflow-hidden">
+            <div className="w-full rounded-t-lg h-[350px] overflow-hidden relative">
                 <img
-                    className="w-full object-cover rounded-t-lg"
+                    className="w-full rounded-t-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 "
                     src={spotImg}
                     alt={description}
                 />
@@ -83,8 +92,8 @@ const SpotFullInfo: React.FC<SpotDeetsData> = ({ name, spotImg, description, own
                     </div>
                 </div>
 
-                <div className="flex justify-center align-middle items-center bg-slate-600 w-full h-[400px]">
-                    GOOGLE MAP HERE
+                <div className="flex justify-center align-middle items-center w-full h-[400px] shadow rounded-md">
+                    <GoogleMapsPage address={address.streetAddress || ''} location={address.location} />
                 </div>
 
                 <div className="flex justify-between align-middle items-center">
@@ -104,6 +113,14 @@ const SpotFullInfo: React.FC<SpotDeetsData> = ({ name, spotImg, description, own
                 </div>
             </div>
 
+            <div className="flex flex-col justify-center items-end rounded-b-lg">
+                <button className="mt-3 w-48 bg-gray-600 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded" onClick={handleDelete}>
+                    <div className="flex justify-center items-center px-2">
+                        <img src={trashCan} className="w-8 h-8" />
+                        <p className="pl-2">Delete</p>
+                    </div>
+                </button>
+            </div>
 
         </div >
     )

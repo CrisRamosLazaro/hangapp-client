@@ -17,7 +17,7 @@ const HomePage = () => {
     //         .then(({ data }) => {
     //             setPlacesData(data.slice(0, 5))
     //         })
-    //         .catch(err => console.log(err))
+    //         .catch(err => console.error(err))
     // }
 
     return (

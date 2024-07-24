@@ -21,7 +21,7 @@ const SpotsPage = () => {
                 setSpotsData(data)
                 setSpotsDataBackup(data)
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
     }
 
 

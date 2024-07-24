@@ -99,7 +99,7 @@ const CreateSpotForm = () => {
             .then(() => {
                 navigate(`/spots`)
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
     }
 
     return (
