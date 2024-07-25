@@ -32,7 +32,6 @@ export interface SpotDeetsData {
     name: string
     description: string
     spotImg?: string
-    // photoReference?: string[]
     categories: string[]
     phone: string
     openHours: string[]

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { SpotDeetsData } from "types/spot"
 import spotServices from "@/services/spot.services"
 import Loader from "@/components/Loader"
+import CreateCommentForm from "@/components/forms/CreateCommentForm"
 
 const SpotFullInfoPage = () => {
 
@@ -59,6 +60,7 @@ const SpotFullInfoPage = () => {
                 <Loader />
             }
             <SpotFullInfo {...spotInfo} />
+            <CreateCommentForm />
         </div>
     )
 }
