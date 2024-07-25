@@ -1,7 +1,7 @@
 import SpotFullInfo from "@/components/SpotFullInfo"
 import { useState, useEffect } from "react"
 import { useParams } from 'react-router-dom'
-import { SpotDeetsData } from "types/spot"
+import { SpotFullData } from "types/spot"
 import spotServices from "@/services/spot.services"
 import Loader from "@/components/Loader"
 import CreateCommentForm from "@/components/forms/CreateCommentForm"
@@ -10,7 +10,7 @@ const SpotFullInfoPage = () => {
 
     const { spot_id } = useParams()
 
-    const initialValues: SpotDeetsData = {
+    const initialValues: SpotFullData = {
         placeId: '',
         name: '',
         description: '',
@@ -34,10 +34,10 @@ const SpotFullInfoPage = () => {
             lastName: '',
             avatar: ''
         },
-        comment: '',
+        comments: [],
     }
 
-    const [spotInfo, setSpotInfo] = useState<SpotDeetsData>(initialValues)
+    const [spotInfo, setSpotInfo] = useState<SpotFullData>(initialValues)
 
     const loadSpotInfo = async () => {
 

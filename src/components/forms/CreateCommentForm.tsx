@@ -3,14 +3,17 @@ import { useState, useContext, ChangeEvent, FormEvent } from 'react'
 import { AuthContext } from "@/contexts/auth.context"
 import { CommentData } from "types/comment"
 import commentServices from "@/services/comment.services"
+import { useParams } from 'react-router-dom'
 
 const CreateCommentForm: React.FC = () => {
 
     const { user } = useContext(AuthContext)
+    const { spot_id } = useParams()
 
     const [commentData, setCommentData] = useState<CommentData>({
         content: '',
-        owner: user!._id
+        owner: user!._id,
+        spotId: spot_id!
     })
 
     const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -23,8 +26,6 @@ const CreateCommentForm: React.FC = () => {
         commentServices
             .createComment(commentData)
             .catch(err => console.log(err))
-
-        console.log("linked!")
     }
 
     return (

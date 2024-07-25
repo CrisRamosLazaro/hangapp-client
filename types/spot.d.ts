@@ -10,12 +10,11 @@ interface Address {
     [key: string]: any
 }
 
-export interface SpotData {
+export interface SpotCreationData {
     placeId?: string
     name: string
     description: string
     spotImg?: string
-    // photoReference?: string[]
     categories: string[]
     phone: string
     openHours: string[]
@@ -27,7 +26,7 @@ export interface SpotData {
     [key: string]: any
 }
 
-export interface SpotDeetsData {
+export interface SpotFullData {
     placeId?: string
     name: string
     description: string
@@ -39,6 +38,6 @@ export interface SpotDeetsData {
     userRating?: string
     userReview?: string
     owner: User
-    comment?: string
+    comments: string[]
     [key: string]: any
 }

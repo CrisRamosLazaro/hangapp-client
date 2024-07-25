@@ -5,14 +5,14 @@ import spotsService from "@/services/spot.services"
 import FormField from "@/components/form-fields/FormField"
 import CheckboxFormField from "@/components/form-fields/CheckBoxFormField"
 import spotFields from "@/consts/spotFields"
-import { SpotData } from "types/spot"
+import { SpotCreationData } from "types/spot"
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
 
 const CreateSpotForm = () => {
 
     const { user } = useContext(AuthContext)
 
-    const initialValues: SpotData = {
+    const initialValues: SpotCreationData = {
         placeId: '',
         name: '',
         description: '',
@@ -36,7 +36,7 @@ const CreateSpotForm = () => {
 
     const navigate = useNavigate()
 
-    const [spotData, setSpotData] = useState<SpotData>(initialValues)
+    const [spotData, setSpotData] = useState<SpotCreationData>(initialValues)
     const [dataUpdated, setDataUpdated] = useState(false)
     const [googlePlace, setGooglePlace] = useState<string>('')
     const [selectedCategories, setSelectedCategories] = useState<string[]>([])

@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
+import { SpotCreationData, SpotFullData } from 'types/spot'
 
 class SpotServices {
 
@@ -22,7 +23,7 @@ class SpotServices {
         })
     }
 
-    createSpot(spotData: any) {
+    createSpot(spotData: SpotCreationData) {
         return this.api.post(`/create-spot`, spotData)
     }
 
@@ -50,7 +51,7 @@ class SpotServices {
         return this.api.put(`/${spot_id}/remove-from-favorites`, user_id)
     }
 
-    editSpot(spot_id: string, spotData: any) {
+    editSpot(spot_id: string, spotData: SpotFullData) {
         return this.api.put(`/${spot_id}/edit`, spotData)
     }
 
