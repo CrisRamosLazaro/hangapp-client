@@ -47,7 +47,7 @@ const SignupForm: React.FC = () => {
 
     return (
         <div>
-            <div className="p-4 border border-gray-200 rounded-lg shadow-md">
+            <div className="p-8 border border-gray-200 rounded-lg shadow-md">
 
                 <form onSubmit={handleSubmit}>
 
@@ -101,7 +101,7 @@ const SignupForm: React.FC = () => {
                     </div> */}
 
 
-                    <div className="d-grid ">
+                    <div className="mt-4">
                         <button
                             className="bg-yellow-500 hover:bg-yellow-600 w-1/2 rounded p-1"
                             disabled={loadingAvatar}

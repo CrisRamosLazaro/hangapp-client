@@ -13,8 +13,7 @@ export const initialValues = {
             coordinates: []
         }
     },
-    openHours: '',
+    openHours: [],
     userRating: '',
     userReview: '',
-    comment: '',
 }

@@ -5,6 +5,7 @@ import spotsService from "@/services/spot.services"
 import FormField from "@/components/form-fields/FormField"
 import CheckboxFormField from "@/components/form-fields/CheckBoxFormField"
 import spotFields from "@/consts/spotFields"
+import { initialValues } from "@/consts/spotFormInitialValues"
 import { SpotCreationData } from "types/spot"
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
 
@@ -12,31 +13,15 @@ const CreateSpotForm = () => {
 
     const { user } = useContext(AuthContext)
 
-    const initialValues: SpotCreationData = {
-        placeId: '',
-        name: '',
-        description: '',
-        spotImg: '',
-        categories: [],
-        phone: '',
-        address: {
-            city: '',
-            streetAddress: '',
-            location: {
-                type: 'Point',
-                coordinates: []
-            }
-        },
-        openHours: [],
-        userRating: '',
-        userReview: '',
+    const navigate = useNavigate()
+
+    const initialObject: SpotCreationData = {
+        ...initialValues,
         owner: user!._id,
         comment: '',
     }
 
-    const navigate = useNavigate()
-
-    const [spotData, setSpotData] = useState<SpotCreationData>(initialValues)
+    const [spotData, setSpotData] = useState<SpotCreationData>(initialObject)
     const [dataUpdated, setDataUpdated] = useState(false)
     const [googlePlace, setGooglePlace] = useState<string>('')
     const [selectedCategories, setSelectedCategories] = useState<string[]>([])
@@ -71,9 +56,9 @@ const CreateSpotForm = () => {
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Backspace' || e.key === 'Delete') {
-            setSpotData(initialValues)
+            setSpotData(initialObject)
         }
-    };
+    }
 
     const handleChange = (suggestion: string) => setGooglePlace(suggestion)
 

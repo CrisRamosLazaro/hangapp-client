@@ -38,7 +38,7 @@ const LoginForm: React.FC = () => {
         }
     }, [user, isLoading, navigate])
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value, name } = e.target
         setErrorMessages(prevErrors => ({ ...prevErrors, [name]: '' }))
         setLoginData({ ...loginData, [name]: value })

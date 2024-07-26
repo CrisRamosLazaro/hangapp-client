@@ -1,13 +1,15 @@
 import { User } from "./user"
+import { CommentData } from "./comment"
+
+interface Location {
+    type: Point
+    coordinates: number[]
+}
 
 interface Address {
     city: string
     streetAddress?: string
-    location: {
-        type: 'Point'
-        coordinates: number[]
-    }
-    [key: string]: any
+    location: Location
 }
 
 export interface SpotCreationData {
@@ -26,18 +28,8 @@ export interface SpotCreationData {
     [key: string]: any
 }
 
-export interface SpotFullData {
-    placeId?: string
-    name: string
-    description: string
-    spotImg?: string
-    categories: string[]
-    phone: string
-    openHours: string[]
-    address: Address
-    userRating?: string
-    userReview?: string
+export interface SpotFullData
+    extends Omit<SpotCreationData, 'owner' | 'comment'> {
     owner: User
-    comments: string[]
-    [key: string]: any
+    comments: CommentData[]
 }

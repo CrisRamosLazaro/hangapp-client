@@ -1,16 +1,16 @@
 import FormField from "@/components/form-fields/FormField"
 import { useState, useContext, ChangeEvent, FormEvent } from 'react'
 import { AuthContext } from "@/contexts/auth.context"
-import { CommentData } from "types/comment"
+import { CommentCreationData, CreateCommentFormProps } from "types/comment"
 import commentServices from "@/services/comment.services"
 import { useParams } from 'react-router-dom'
 
-const CreateCommentForm: React.FC = () => {
+const CreateCommentForm: React.FC<CreateCommentFormProps> = ({ refreshCommentFeed }) => {
 
     const { user } = useContext(AuthContext)
     const { spot_id } = useParams()
 
-    const [commentData, setCommentData] = useState<CommentData>({
+    const [commentData, setCommentData] = useState<CommentCreationData>({
         content: '',
         owner: user!._id,
         spotId: spot_id!
@@ -25,29 +25,39 @@ const CreateCommentForm: React.FC = () => {
         e.preventDefault()
         commentServices
             .createComment(commentData)
-            .catch(err => console.log(err))
+            .then(() => {
+                setCommentData({ ...commentData, content: '' })
+                refreshCommentFeed()
+            })
+            .catch(err => console.error(err))
     }
 
     return (
-        <div className="flex flex-col p-4 rounded-lg shadow-md border border-gray-200 w-5/6">
+        <div className="">
 
-            <form onSubmit={handleSubmit}>
-                <FormField
-                    label="Your comment"
-                    htmlFor="comment"
-                    placeholder="write a comment"
-                    type="textarea"
-                    autoComplete="on"
-                    value={commentData.content}
-                    name="content"
-                    id="comment"
-                    onChange={handleInputChange}
-                />
+            <form
+                className="flex justify-between items-center mt-4"
+                onSubmit={handleSubmit}
+            >
+                <div className="flex justify-start items-center flex-grow mr-4 ">
 
-                <div className="d-grid mt-5">
+                    <FormField
+                        label="Your comment"
+                        htmlFor="comment"
+                        placeholder="write a comment"
+                        type="textarea"
+                        autoComplete="on"
+                        value={commentData.content}
+                        name="content"
+                        id="comment"
+                        onChange={handleInputChange}
+                    />
+                </div>
+
+                <div className="">
                     <button
                         type="submit"
-                        className="mt-3 bg-yellow-600 hover:bg-yellow-800 text-white font-bold py-2 px-4 rounded"
+                        className="bg-yellow-600 hover:bg-yellow-800 text-white font-bold py-2 px-4 rounded"
                     >
                         Post
                     </button>

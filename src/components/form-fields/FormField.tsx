@@ -32,7 +32,7 @@ const FormField = ({ label, htmlFor, placeholder, placeholderIcon, type, value, 
     )
 
     return (
-        <div className="mb-3">
+        <div className="w-full">
             <label className="sr-only" htmlFor={htmlFor}>{label}</label>
             <div className="relative">
                 {inputField}

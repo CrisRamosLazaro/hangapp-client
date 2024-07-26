@@ -1,33 +1,18 @@
 import SpotFullInfo from "@/components/SpotFullInfo"
 import { useState, useEffect } from "react"
 import { useParams } from 'react-router-dom'
+import { initialValues } from "@/consts/spotFormInitialValues"
 import { SpotFullData } from "types/spot"
 import spotServices from "@/services/spot.services"
 import Loader from "@/components/Loader"
-import CreateCommentForm from "@/components/forms/CreateCommentForm"
+import CommentThread from "@/components/CommentThread"
 
 const SpotFullInfoPage = () => {
 
     const { spot_id } = useParams()
 
-    const initialValues: SpotFullData = {
-        placeId: '',
-        name: '',
-        description: '',
-        spotImg: '',
-        categories: [],
-        phone: '',
-        address: {
-            city: '',
-            streetAddress: '',
-            location: {
-                type: 'Point',
-                coordinates: []
-            }
-        },
-        openHours: [],
-        userRating: '',
-        userReview: '',
+    const initialObject: SpotFullData = {
+        ...initialValues,
         owner: {
             _id: '',
             firstName: '',
@@ -37,7 +22,7 @@ const SpotFullInfoPage = () => {
         comments: [],
     }
 
-    const [spotInfo, setSpotInfo] = useState<SpotFullData>(initialValues)
+    const [spotInfo, setSpotInfo] = useState<SpotFullData>(initialObject)
 
     const loadSpotInfo = async () => {
 
@@ -56,11 +41,11 @@ const SpotFullInfoPage = () => {
 
     return (
         <div className='flex flex-col justify-center items-center min-h-full'>
-            {spotInfo === initialValues &&
+            {spotInfo === initialObject &&
                 <Loader />
             }
             <SpotFullInfo {...spotInfo} />
-            <CreateCommentForm />
+            <CommentThread spotId={spot_id!} />
         </div>
     )
 }

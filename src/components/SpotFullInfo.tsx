@@ -1,12 +1,12 @@
 import { useContext, useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '@/contexts/auth.context'
-import { SpotDeetsData } from 'types/spot'
+import { SpotFullData } from 'types/spot'
 import spotServices from '@/services/spot.services'
 import trashCan from '@/assets/icons/trash-can.svg'
 import GoogleMapsPage from '@/pages/GoogleMapsPage'
 
-const SpotFullInfo: React.FC<SpotDeetsData> = ({ name, spotImg, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
+const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
 
     const { user } = useContext(AuthContext)
     const { spot_id } = useParams()
@@ -55,8 +55,13 @@ const SpotFullInfo: React.FC<SpotDeetsData> = ({ name, spotImg, description, own
                                 <p className="text-right text-sm">Check out their profile!</p>
                             </Link>
                         </div>
-                        <div className="flex items-center w-20 h-20">
-                            <img className='object-cover rounded-full ' src={owner.avatar} alt={`${owner.firstName} ${owner.lastName}`} />
+
+                        <div className="flex items-center justify-center w-20 h-20 overflow-hidden relative rounded-full">
+                            <img
+                                className="w-auto h-auto min-w-full min-h-full object-cover transform scale-125"
+                                src={owner.avatar}
+                                alt={`${owner.firstName} ${owner.lastName}`}
+                            />
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
-import { CommentData } from 'types/comment'
+import { CommentCreationData, CommentThreadProps } from 'types/comment'
 
 class CommentServices {
 
@@ -8,7 +8,7 @@ class CommentServices {
     constructor() {
 
         this.api = axios.create({
-            baseURL: `${import.meta.env.VITE_API_URL}/comments`
+            baseURL: `${import.meta.env.VITE_API_URL}/spots`
         })
 
         this.api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
@@ -23,8 +23,12 @@ class CommentServices {
         })
     }
 
-    createComment(commentData: CommentData) {
+    createComment(commentData: CommentCreationData) {
         return this.api.post(`/create-comment`, commentData)
+    }
+
+    getAllSpotsComments(spot_id: string) {
+        return this.api.get(`/${spot_id}/comments`)
     }
 
 }
