@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '@/contexts/auth.context'
 import { SpotFullData } from 'types/spot'
 import spotServices from '@/services/spot.services'
-import trashCan from '@/assets/icons/trash-can.svg'
+import trashCan from '@/assets/icons/trash-can-white.svg'
 import GoogleMapsPage from '@/pages/GoogleMapsPage'
 
 const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
@@ -48,21 +48,20 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owne
                     </div>
 
                     <div className="flex w-full md:w-1/2 justify-end items-center h-24 p-1">
-                        <div className="flex flex-col justify-center h-20 px-8">
+                        <div className="flex flex-col justify-start items-end h-20 px-8 py-2">
                             <p className="font-bold text-right">Curated by:</p>
                             <p className="text-right">{owner.firstName} {owner.lastName}</p>
-                            <Link to={`/profile/${owner._id}`}>
-                                <p className="text-right text-sm">Check out their profile!</p>
-                            </Link>
                         </div>
 
-                        <div className="flex items-center justify-center w-20 h-20 overflow-hidden relative rounded-full">
-                            <img
-                                className="w-auto h-auto min-w-full min-h-full object-cover transform scale-125"
-                                src={owner.avatar}
-                                alt={`${owner.firstName} ${owner.lastName}`}
-                            />
-                        </div>
+                        <Link to={`/profile/${owner._id}`}>
+                            <div className="flex items-center justify-center w-20 h-20 overflow-hidden relative rounded-full">
+                                <img
+                                    className="w-auto h-auto min-w-full min-h-full object-cover transform scale-125"
+                                    src={owner.avatar}
+                                    alt={`check out ${owner.firstName}'s profile`}
+                                />
+                            </div>
+                        </Link>
                     </div>
                 </div>
 
@@ -117,16 +116,19 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owne
                     </button>
                 </div>
             </div>
-
-            <div className="flex flex-col justify-center items-end rounded-b-lg">
-                <button className="mt-3 w-48 bg-gray-600 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded" onClick={handleDelete}>
-                    <div className="flex justify-center items-center px-2">
+            {
+                (user!._id === owner._id || user!.role === 'ADMIN') &&
+                <div className="flex flex-col justify-center items-end rounded-b-lg">
+                    <button
+                        onClick={handleDelete}
+                        className="flex justify-center items-center mt-3 w-40 bg-gray-600 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded"
+                    >
                         <img src={trashCan} className="w-8 h-8" />
                         <p className="pl-2">Delete</p>
-                    </div>
-                </button>
-            </div>
+                    </button>
+                </div>
 
+            }
         </div >
     )
 

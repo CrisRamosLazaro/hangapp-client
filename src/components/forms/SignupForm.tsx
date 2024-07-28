@@ -47,7 +47,7 @@ const SignupForm: React.FC = () => {
 
     return (
         <div>
-            <div className="p-8 border border-gray-200 rounded-lg shadow-md">
+            <div className="py-4 px-8 border border-gray-200 rounded-lg shadow-md">
 
                 <form onSubmit={handleSubmit}>
 
@@ -55,39 +55,41 @@ const SignupForm: React.FC = () => {
                         const { label, htmlFor, placeholder, type, autoComplete, id, placeholderIcon } = field
 
                         return (
-                            <FormField
-                                key={id}
-                                label={label}
-                                htmlFor={htmlFor}
-                                placeholder={placeholder}
-                                type={type}
-                                autoComplete={autoComplete}
-                                value={signupData[id]}
-                                name={id}
-                                id={id}
-                                onChange={handleInputChange}
-                                placeholderIcon={placeholderIcon}
-                                error={errorMessages[id]}
-                            />
+                            <div key={id} className="mb-4">
+                                <FormField
+                                    label={label}
+                                    htmlFor={htmlFor}
+                                    placeholder={placeholder}
+                                    type={type}
+                                    autoComplete={autoComplete}
+                                    value={signupData[id]}
+                                    name={id}
+                                    id={id}
+                                    onChange={handleInputChange}
+                                    placeholderIcon={placeholderIcon}
+                                    error={errorMessages[id]}
+                                />
+                            </div>
                         )
                     })}
-
-                    <FormField
-                        label={'password_confirm'}
-                        htmlFor='confirmPassword'
-                        placeholder={'password_confirm'}
-                        type="password"
-                        autoComplete="new-password"
-                        value={confirmPassword}
-                        name="confirmPassword"
-                        id="confirmPassword"
-                        onChange={e => {
-                            if (!confirmPasswordTouched) setConfirmPasswordTouched(true)
-                            setConfirmPassword(e.target.value)
-                        }}
-                        placeholderIcon='placeholder-dark-grafitti bg-password-input-light'
-                        error={errorMessages.confirmPassword}
-                    />
+                    <div className="mb-4">
+                        <FormField
+                            label={'password_confirm'}
+                            htmlFor='confirmPassword'
+                            placeholder={'password_confirm'}
+                            type="password"
+                            autoComplete="new-password"
+                            value={confirmPassword}
+                            name="confirmPassword"
+                            id="confirmPassword"
+                            onChange={e => {
+                                if (!confirmPasswordTouched) setConfirmPasswordTouched(true)
+                                setConfirmPassword(e.target.value)
+                            }}
+                            placeholderIcon='placeholder-dark-grafitti bg-password-input-light'
+                            error={errorMessages.confirmPassword}
+                        />
+                    </div>
 
                     {/* <div className="mb-4 flex flex-col items-start p-2">
                         <label htmlFor="image" className="mb-2">Password:</label>
@@ -101,7 +103,7 @@ const SignupForm: React.FC = () => {
                     </div> */}
 
 
-                    <div className="mt-4">
+                    <div className="mt-8">
                         <button
                             className="bg-yellow-500 hover:bg-yellow-600 w-1/2 rounded p-1"
                             disabled={loadingAvatar}

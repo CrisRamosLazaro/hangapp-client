@@ -59,7 +59,7 @@ const LoginForm: React.FC = () => {
 
     return (
         <div>
-            <div className="p-4 border border-gray-200 rounded-lg shadow-md">
+            <div className="px-8 py-4 border border-gray-200 rounded-lg shadow-md">
 
                 {isLoading && <Loader />}
 
@@ -71,24 +71,25 @@ const LoginForm: React.FC = () => {
                             const { label, htmlFor, placeholder, type, autoComplete, id, placeholderIcon } = field
 
                             return (
-                                <FormField
-                                    key={id}
-                                    label={label}
-                                    htmlFor={htmlFor}
-                                    placeholder={placeholder}
-                                    type={type}
-                                    autoComplete={autoComplete}
-                                    value={loginData[id]}
-                                    name={id}
-                                    id={id}
-                                    onChange={handleInputChange}
-                                    placeholderIcon={placeholderIcon}
-                                    error={errorMessages[id]}
-                                />
+                                <div key={id} className="mb-4">
+                                    <FormField
+                                        label={label}
+                                        htmlFor={htmlFor}
+                                        placeholder={placeholder}
+                                        type={type}
+                                        autoComplete={autoComplete}
+                                        value={loginData[id]}
+                                        name={id}
+                                        id={id}
+                                        onChange={handleInputChange}
+                                        placeholderIcon={placeholderIcon}
+                                        error={errorMessages[id]}
+                                    />
+                                </div>
                             )
                         })}
 
-                    <div className="mt-4">
+                    <div className="mt-8">
                         <button type="submit" className="bg-yellow-500 hover:bg-yellow-600 w-1/2 rounded p-1">LOGIN</button>
                     </div>
 

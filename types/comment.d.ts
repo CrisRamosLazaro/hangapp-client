@@ -9,16 +9,18 @@ export interface CommentCreationData {
 export interface CommentData {
     content: string
     owner: User
+    _id: string
 }
-
-// export interface CommentThreadProps {
-//     comments: CommentData[]
-// }
 
 export interface CommentThreadProps {
     spotId: string
 }
 
 export interface CreateCommentFormProps {
+    refreshCommentFeed: () => void
+}
+
+export interface CommentCardProps extends CommentData {
+    spotId: string
     refreshCommentFeed: () => void
 }

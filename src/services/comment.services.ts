@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
-import { CommentCreationData, CommentThreadProps } from 'types/comment'
+import { CommentCreationData, CommentData, CommentThreadProps } from 'types/comment'
 
 class CommentServices {
 
@@ -29,6 +29,14 @@ class CommentServices {
 
     getAllSpotsComments(spot_id: string) {
         return this.api.get(`/${spot_id}/comments`)
+    }
+
+    editComment(spot_id: string, comment_id: string, content: string) {
+        return this.api.put(`/${spot_id}/comments/${comment_id}/edit`, content)
+    }
+
+    deleteComment(spot_id: string, comment_id: string) {
+        return this.api.delete(`/${spot_id}/comments/${comment_id}/delete`)
     }
 
 }
