@@ -1,10 +1,10 @@
-import { useEffect, useState, useContext, ChangeEvent } from "react"
-import { Link } from 'react-router-dom'
+import { useState, useContext, ChangeEvent } from "react"
 import { AuthContext } from "@/contexts/auth.context"
-import Loader from "./Loader"
 import { CommentCardProps } from "types/comment"
 import trashCan from '@/assets/icons/trash-can.svg'
 import pencil from '@/assets/icons/pencil.svg'
+import close from '@/assets/icons/close.svg'
+import check from '@/assets/icons/check.svg'
 import commentServices from '@/services/comment.services'
 
 
@@ -75,13 +75,25 @@ const CommentCard: React.FC<CommentCardProps> = ({ content, owner, _id, spotId, 
                     </div>
                 </div>
                 :
-                <div className="flex flex-grow justify-between ml-4 py-2 px-4 bg-gray-300 rounded-md">
-
-                    <input type="text" value={editedContent} onChange={handleInputChange} className="form-control" />
-
-                    <div className="gap-2 d-flex justify-content-end mt-2">
-                        <button onClick={handleSave}>Save</button>
-                        <button className='' onClick={handleCancelEditing}>Cancel</button>
+                <div className="flex flex-grow justify-between ml-4 py-2 px-4 bg-white rounded-md shadow-md">
+                    <div className="flex flex-col flex-grow justify-start items-start mr-8 ">
+                        <textarea
+                            value={editedContent}
+                            onChange={handleInputChange}
+                            className="w-full bg-transparent focus:px-2"
+                        />
+                    </div>
+                    <div className="flex justify-end items-center">
+                        {(user!._id === owner._id || user!.role === 'ADMIN') &&
+                            <>
+                                <button onClick={handleSave}>
+                                    <img src={check} alt='save' className="w-6 h-6" />
+                                </button>
+                                <button onClick={handleCancelEditing} className="ml-8">
+                                    <img src={close} alt='close' className="w-6 h-6" />
+                                </button>
+                            </>
+                        }
                     </div>
                 </div>
             }
