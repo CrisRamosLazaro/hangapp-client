@@ -17,3 +17,13 @@ export const initialValues = {
     userRating: '',
     userReview: '',
 }
+
+export const spotOwner = {
+    _id: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    avatar: '',
+    role: '',
+    faveSpots: []
+}

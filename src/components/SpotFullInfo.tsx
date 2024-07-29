@@ -3,8 +3,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '@/contexts/auth.context'
 import { SpotFullData } from 'types/spot'
 import spotServices from '@/services/spot.services'
+import userServices from '@/services/user.services'
 import trashCan from '@/assets/icons/trash-can-white.svg'
 import GoogleMapsPage from '@/pages/GoogleMapsPage'
+import FavoriteButton from './forms/FavoriteButton'
 
 const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
 
@@ -28,7 +30,6 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owne
 
     return (
         <div className="flex flex-col p-4 rounded-lg shadow-md border border-gray-200 w-5/6">
-
             <div className="w-full rounded-t-lg h-[350px] overflow-hidden relative">
                 <img
                     className="w-full rounded-t-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 "
@@ -38,13 +39,16 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owne
             </div>
 
             <div className="flex flex-col justify-center items-stretch rounded-b-lg">
-
                 <div className="flex flex-col md:flex-row justify-between items-center">
-
                     <div className="flex items-center justify-start md:items-start w-full md:w-1/2 h-24 p-1">
                         <h1 className="text-lg font-bold py-2 m-0">
                             {name}
                         </h1>
+                        <FavoriteButton
+                            spotId={spot_id!}
+                            userId={user!._id}
+                            myFaves={user!.faveSpots}
+                        />
                     </div>
 
                     <div className="flex w-full md:w-1/2 justify-end items-center h-24 p-1">
@@ -68,7 +72,6 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owne
                 <hr className="border-gray-400" />
 
                 <div className="flex justify-between items-start my-8">
-
                     <div className="flex flex-grow items-center shadow overflow-hidden sm:rounded-md w-full md:w-1/2 md:h-80">
                         <ul className="divide-y divide-gray-200">
                             {deetsList.map((deet, i) => (
@@ -108,7 +111,7 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owne
 
 
 
-                <div className="d-grid">
+                <div className="">
                     <button className="mt-3 bg-yellow-600 hover:bg-yellow-800 text-white font-bold py-2 px-4 rounded">
                         <Link to={`/spots/`}>
                             Back to all spots

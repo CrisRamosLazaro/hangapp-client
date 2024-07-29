@@ -43,12 +43,12 @@ class SpotServices {
         return this.api.get(`/${user_id}/getUserSpots`)
     }
 
-    addFaveSpot(spot_id: string, user_id: string) {
-        return this.api.put(`/${spot_id}/add-to-favorites`, user_id)
+    addSpotToUserFaves(spot_id: string, user_id: string) {
+        return this.api.put(`/${spot_id}/add-to-faves`, { user_id })
     }
 
-    removeFaveSpot(spot_id: string, user_id: string) {
-        return this.api.put(`/${spot_id}/remove-from-favorites`, user_id)
+    removeSpotFromUserFaves(spot_id: string, user_id: string) {
+        return this.api.put(`/${spot_id}/remove-from-faves`, { user_id })
     }
 
     editSpot(spot_id: string, spotData: SpotFullData) {

@@ -1,7 +1,7 @@
 import SpotFullInfo from "@/components/SpotFullInfo"
 import { useState, useEffect } from "react"
 import { useParams } from 'react-router-dom'
-import { initialValues } from "@/consts/spotFormInitialValues"
+import { initialValues, spotOwner } from "@/consts/spotFormInitialValues"
 import { SpotFullData } from "types/spot"
 import spotServices from "@/services/spot.services"
 import Loader from "@/components/Loader"
@@ -13,12 +13,7 @@ const SpotFullInfoPage = () => {
 
     const initialObject: SpotFullData = {
         ...initialValues,
-        owner: {
-            _id: '',
-            firstName: '',
-            lastName: '',
-            avatar: ''
-        },
+        owner: spotOwner,
         comments: [],
     }
 
