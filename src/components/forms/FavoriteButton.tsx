@@ -52,13 +52,13 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({ spotId, userId, myFaves
                         onClick={handleAddToFaves}
                     >
 
-                        <img src={heartEmpty} alt="add to favorites" className="w-6 h-6 ml-2 lg:mt-2" />
+                        <img src={heartEmpty} alt="add to favorites" className="w-6 h-6 ml-2 md:mt-2" />
                     </button>
                     :
                     <button
                         onClick={handleRemoveFromFaves}
                     >
-                        <img src={heartFull} alt="remove from favorites" className="w-6 h-6 ml-2 lg:mt-2" />
+                        <img src={heartFull} alt="remove from favorites" className="w-6 h-6 ml-2 md:mt-2" />
                     </button>
             }
         </>

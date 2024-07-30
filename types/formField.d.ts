@@ -1,29 +1,39 @@
-export type FormFieldType = {
-    component?: string
-    optionsArr?: Array<string>
+export interface BaseFieldType {
     label: string
     htmlFor: string
-    placeholder: string
-    placeholderIcon?: string
-    type: string
+    placeholder?: string
     value: string
     name: string
     id: string
-    autoComplete: string
+    autoComplete?: string
+    type?: string
+    optionsArr?: string[]
+
+}
+
+export interface FormFieldType extends BaseFieldType {
+    component?: string
+    placeholderIcon?: string
+    type: string
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
     error?: string
 }
 
-export interface SelectFormFieldType
-    extends Omit<FormFieldType, 'optionsArr' | 'onChange'> {
-    optionsArr: Array<string>
+export interface SelectFormFieldType extends BaseFieldType {
+    optionsArr: string[]
     onChange: (e: ChangeEvent<HTMLInputElement>) => void
+    error?: string
 }
 
 export interface CheckboxFormFieldType {
-    options: string[]
+    optionsArr: string[]
     selectedOptions: string[]
-    onChange: (selected: string[]) => void
-
     placeholder: string
+    onChange: (selected: string[]) => void
+}
+
+interface RatingStarsProps {
+    userRating: number
+    isEditing: boolean
+    onChange: (rating: number) => void
 }

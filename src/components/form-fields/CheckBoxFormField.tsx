@@ -2,7 +2,7 @@
 import { CheckboxFormFieldType } from 'types/formField'
 import ErrorMessage from "@/components/ErrorMessage"
 
-const CheckboxFormField: React.FC<CheckboxFormFieldType> = ({ options, selectedOptions, placeholder, onChange }) => {
+const CheckboxFormField: React.FC<CheckboxFormFieldType> = ({ optionsArr, selectedOptions, placeholder, onChange }) => {
 
     const handleCheckboxChange = (option: string) => {
         if (selectedOptions.includes(option)) {
@@ -33,7 +33,7 @@ const CheckboxFormField: React.FC<CheckboxFormFieldType> = ({ options, selectedO
         <div className="w-full bg-transparent border-none shadow-md outline-none p-2 rounded-md">
             <h1 className='text-gray-400 text-left py-2'>{placeholder}</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1">
-                {options.map((option, i) => (
+                {optionsArr.map((option, i) => (
                     <div
                         key={i}
                         className={'p-2 rounded flex items-center space-x-2 cursor-pointer'}

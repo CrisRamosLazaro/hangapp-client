@@ -14,8 +14,6 @@ export const initialValues = {
         }
     },
     openHours: [],
-    userRating: '',
-    userReview: '',
 }
 
 export const spotOwner = {

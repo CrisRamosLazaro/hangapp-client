@@ -21,8 +21,8 @@ export interface SpotCreationData {
     phone: string
     openHours: string[]
     address: Address
-    userRating?: string
     userReview?: string
+    userRating?: number
     owner: string
     comment?: string
     [key: string]: any
@@ -32,4 +32,9 @@ export interface SpotFullData
     extends Omit<SpotCreationData, 'owner' | 'comment'> {
     owner: User
     comments: CommentData[]
+}
+
+export interface SpotEditableData {
+    userReview: string
+    userRating: number
 }

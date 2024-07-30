@@ -60,6 +60,23 @@ const spotFields = [
         id: "city",
         placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
     },
+    {
+        label: 'your review',
+        placeholder: 'your review',
+        type: "textarea",
+        autoComplete: "off",
+        id: "userReview",
+        placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
+    },
+    {
+        component: 'rating-stars',
+        label: 'rate this place',
+        id: "userRating",
+        //The only way CreateSpotForm would work (?!)
+        type: '',
+        optionsArr: ["none"],
+        placeholder: ''
+    },
 ]
 
 export default spotFields

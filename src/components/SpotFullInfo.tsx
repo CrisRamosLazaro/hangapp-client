@@ -3,10 +3,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '@/contexts/auth.context'
 import { SpotFullData } from 'types/spot'
 import spotServices from '@/services/spot.services'
-import userServices from '@/services/user.services'
 import trashCan from '@/assets/icons/trash-can-white.svg'
 import GoogleMapsPage from '@/pages/GoogleMapsPage'
 import FavoriteButton from './forms/FavoriteButton'
+import SpotOwnerRatingCard from './SpotOwnerRatingCard'
 
 const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
 
@@ -103,16 +103,17 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owne
                     <GoogleMapsPage address={address.streetAddress || ''} location={address.location} />
                 </div>
 
-                <div className="flex justify-between align-middle items-center">
-                    <h1>Curator's review:</h1>
-                    <p>{userReview}</p>
-                    <p>{userRating}</p>
+                <div className="mt-6 shadow rounded-md py-2 px-8">
+                    <SpotOwnerRatingCard
+                        spotId={spot_id!}
+                        userReview={userReview}
+                        userRating={userRating}
+                        owner={owner}
+                    />
                 </div>
 
-
-
                 <div className="">
-                    <button className="mt-3 bg-yellow-600 hover:bg-yellow-800 text-white font-bold py-2 px-4 rounded">
+                    <button className="mt-12 bg-yellow-600 hover:bg-yellow-800 text-white font-bold py-2 px-4 rounded">
                         <Link to={`/spots/`}>
                             Back to all spots
                         </Link>
@@ -121,10 +122,10 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owne
             </div>
             {
                 (user!._id === owner._id || user!.role === 'ADMIN') &&
-                <div className="flex flex-col justify-center items-end rounded-b-lg">
+                <div className="flex justify-end items-center rounded-b-lg mt-3">
                     <button
                         onClick={handleDelete}
-                        className="flex justify-center items-center mt-3 w-40 bg-gray-600 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded"
+                        className="flex justify-center items-center w-32 bg-red-800 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
                     >
                         <img src={trashCan} className="w-8 h-8" />
                         <p className="pl-2">Delete</p>

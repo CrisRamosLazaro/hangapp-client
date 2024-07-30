@@ -8,6 +8,7 @@ import spotFields from "@/consts/spotFields"
 import { initialValues } from "@/consts/spotFormInitialValues"
 import { SpotCreationData } from "types/spot"
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
+import RatingStars from "../RatingStars"
 
 const CreateSpotForm = () => {
 
@@ -18,16 +19,19 @@ const CreateSpotForm = () => {
     const initialObject: SpotCreationData = {
         ...initialValues,
         owner: user!._id,
-        comment: '',
+        userRating: 0,
+        userReview: '',
     }
 
     const [spotData, setSpotData] = useState<SpotCreationData>(initialObject)
     const [dataUpdated, setDataUpdated] = useState(false)
     const [googlePlace, setGooglePlace] = useState<string>('')
     const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+    const [editedRating, setEditedRating] = useState<number>(0)
 
     useEffect(() => {
         setDataUpdated(true)
+        console.log("DATA UPDATED", spotData)
     }, [spotData])
 
 
@@ -52,6 +56,11 @@ const CreateSpotForm = () => {
     const handleCategoryChange = (selected: string[]) => {
         setSelectedCategories(selected)
         setSpotData({ ...spotData, categories: selected })
+    }
+
+    const handleRatingChange = (newRating: number) => {
+        setEditedRating(newRating + 1)
+        setSpotData({ ...spotData, userRating: newRating + 1 })
     }
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -140,11 +149,20 @@ const CreateSpotForm = () => {
                             component === 'checkbox' ? (
                                 <CheckboxFormField
                                     key={id}
-                                    options={optionsArr}
+                                    optionsArr={optionsArr}
                                     selectedOptions={selectedCategories}
                                     onChange={handleCategoryChange}
                                     placeholder={placeholder}
                                 />
+                            ) : component === 'rating-stars' ? (
+                                <div key={id} className="flex justify-between items-center w-full bg-transparent border-none shadow-md outline-none p-2 rounded-md bg-no-repeat bg-right-10-center bg-20 focus:bg-yellow-100 focus:bg-opacity-50">
+                                    <p>{label}</p>
+                                    <RatingStars
+                                        userRating={0}
+                                        isEditing={true}
+                                        onChange={handleRatingChange}
+                                    />
+                                </div>
                             ) : (
                                 <div key={id}>
                                     < FormField
