@@ -5,69 +5,84 @@ import { RatingStarsProps } from 'types/formField'
 const RatingStars: React.FC<RatingStarsProps> = ({ userRating, onChange, isEditing }) => {
 
     const [currentRating, setCurrentRating] = useState<number>(userRating)
-    const [rateOnHover, setRateOnHover] = useState<number | null>(userRating)
-    const [starsDisplay, setStarsDisplay] = useState<string[]>(['☆', '☆', '☆', '☆', '☆'])
-
+    const [ratingOnHover, setRatingOnHover] = useState<number | null>(userRating)
+    const [hasClicked, setHasClicked] = useState<boolean>(false)
+    const [hasHovered, setHasHovered] = useState<boolean>(false)
 
     // useEffect(() => {
-    //     console.log("current", currentRating)
-    //     const fullStars = Math.floor(userRating)
-    //     const hasHalfStar = userRating % 1 >= 0.5
-
-    //     const newStarsDisplay = starsDisplay.map((star, i) => {
-    //         if (currentRating === 0) {
-    //             return '☆'
-    //         }
-    //         if (i < fullStars && currentRating !== 0) {
-    //             return '★'
-    //         } else if (i === fullStars && hasHalfStar) {
-    //             return '✦'
-    //         }
-    //         else {
-    //             return '☆'
-    //         }
-    //     })
-    //     setStarsDisplay(newStarsDisplay)
+    //     setCurrentRating(userRating)
+    //     console.log("UserRating in STARS", userRating)
+    //     console.log("currentRating in STARS", currentRating)
     // }, [userRating])
 
-    const handleMouseEnter = (index: number) => {
-        setCurrentRating(index)
-        setRateOnHover(index)
+    const starsDisplay = ['☆', '☆', '☆', '☆', '☆']
+
+    const newStarsDisplay = starsDisplay.map((star, i) => {
+        if (userRating === 0) {
+            return '☆'
+        } else if (i < userRating && userRating !== 0) {
+            return '★'
+        } else {
+            return '☆'
+        }
+    })
+
+    const handleMouseEnter = (i: number) => {
+        setHasHovered(true)
+        setRatingOnHover(i)
     }
 
     const handleMouseLeave = () => {
-        setRateOnHover(null)
+        if (!hasClicked) {
+            setRatingOnHover(null)
+        }
     }
 
     const handleClick = (index: number) => {
-        setCurrentRating(index)
+        setHasClicked(true)
         onChange(index)
     }
 
     const getStarDisplay = (index: number) => {
-        if (rateOnHover !== null) {
-            return index <= rateOnHover ? '★' : '☆'
+        if (ratingOnHover !== null) {
+            return index <= ratingOnHover ? '★' : '☆'
         }
-        return index <= currentRating && currentRating !== 0 ? '★' : '☆'
+        return '☆'
     }
 
     return (
         <div>
             {!isEditing
-                ? <>{starsDisplay.join('')}</>
-                : <>
-                    {[1, 2, 3, 4, 5].map((star, index) => (
-                        <span
-                            key={index}
-                            onMouseEnter={() => handleMouseEnter(index)}
-                            onMouseLeave={handleMouseLeave}
-                            onClick={() => handleClick(index)}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            {getStarDisplay(index)}
-                        </span>
-                    ))}
-                </>
+                ? <>{newStarsDisplay.join('')}</>
+                : !hasHovered
+                    ? <div onMouseEnter={() => handleMouseEnter(0)} >
+                        {newStarsDisplay.join('')}
+                    </div>
+                    : <>
+                        {starsDisplay.map((star, i) => {
+                            !hasClicked
+                                ? (
+                                    <span
+                                        key={i}
+                                        onMouseEnter={() => handleMouseEnter(i)}
+                                        onMouseLeave={handleMouseLeave}
+                                        onClick={() => handleClick(i)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        {getStarDisplay(i)}
+                                    </span>
+                                ) : (
+                                    <span
+                                        key={i}
+                                        onClick={() => handleClick(i)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        {getStarDisplay(i)}
+                                    </span>
+                                )
+                        }
+                        )}
+                    </>
             }
 
         </div>

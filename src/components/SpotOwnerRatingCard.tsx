@@ -1,4 +1,4 @@
-import { useContext, useState, ChangeEvent } from 'react'
+import { useContext, useState, useEffect, useRef, ChangeEvent } from 'react'
 import { AuthContext } from '@/contexts/auth.context'
 import RatingStars from "./RatingStars"
 import pencil from '@/assets/icons/pencil.svg'
@@ -18,24 +18,41 @@ const SpotOwnerRatingCard: React.FC<SpotOwnerRatingCardProps> = ({ spotId, owner
 
     const { user } = useContext(AuthContext)
 
-    const [isEditing, setIsEditing] = useState<boolean>(false)
+    const [isEditingForm, setIsEditingForm] = useState<boolean>(false)
     const [editedReview, setEditedReview] = useState<string>(userReview)
     const [editedRating, setEditedRating] = useState<number>(userRating)
+    const [textareaHeight, setTextareaHeight] = useState<string>('auto')
+
+    const pRef = useRef<HTMLParagraphElement>(null)
+
+    useEffect(() => {
+        if (pRef.current) {
+            const paddedField = pRef.current.scrollHeight + 5
+            setTextareaHeight(`${paddedField}px`)
+        }
+    }, [isEditingForm])
+
+    useEffect(() => {
+        setEditedReview(userReview)
+        setEditedRating(userRating)
+        console.log(`PROPS AFTER USE_EFFECT: spotId: ${spotId}, owner: ${owner}, userReview: ${userReview}, userRating: ${userRating}`)
+    }, [userReview, userRating])
 
     const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         setEditedReview(e.target.value)
     }
 
     const handleRatingChange = (newRating: number) => {
-        setEditedRating(newRating + 1)
+        console.log("NEW RATING", newRating)
+        setEditedRating(newRating)
     }
 
-    const handleEdit = () => {
-        setIsEditing(true)
+    const handleEditForm = () => {
+        setIsEditingForm(true)
     }
 
-    const handleSave = async () => {
-        setIsEditing(false)
+    const handleSaveChanges = async () => {
+        setIsEditingForm(false)
 
         try {
             const spotEditableData = {
@@ -49,8 +66,10 @@ const SpotOwnerRatingCard: React.FC<SpotOwnerRatingCardProps> = ({ spotId, owner
     }
 
     const handleCancelEditing = () => {
-        setIsEditing(false)
+        setIsEditingForm(false)
         setEditedReview(userReview)
+        console.log("editedRating", editedRating)
+
         setEditedRating(userRating)
     }
 
@@ -60,15 +79,15 @@ const SpotOwnerRatingCard: React.FC<SpotOwnerRatingCardProps> = ({ spotId, owner
                 <h1 className="font-bold text-left">Curator's review:</h1>
             </div>
 
-            {!isEditing ? (
+            {!isEditingForm ? (
                 <>
                     <div className='flex flex-col items-start lg:w-9/12 '>
                         <div className="flex justify-start w-full">
-                            <p className="text-left">{userReview}</p>
+                            <p ref={pRef} className="text-left px-2 border-2 border-transparent">{userReview}</p>
                         </div>
                         <div className="flex flex-col items-start w-full ">
                             <RatingStars
-                                userRating={userRating}
+                                userRating={editedRating}
                                 isEditing={false}
                                 onChange={handleRatingChange}
                             />
@@ -76,10 +95,10 @@ const SpotOwnerRatingCard: React.FC<SpotOwnerRatingCardProps> = ({ spotId, owner
                         </div>
                     </div>
 
-                    <div className='flex justify-end items-center lg:w-1/12 flex-grow '>
+                    <div className='flex justify-end items-end lg:w-1/12 flex-grow '>
                         {
                             (user!._id === owner._id || user!.role === 'ADMIN') &&
-                            <button onClick={handleEdit}>
+                            <button onClick={handleEditForm}>
                                 <img src={pencil} alt='save' className="w-6 h-6" />
                             </button>
                         }
@@ -92,16 +111,17 @@ const SpotOwnerRatingCard: React.FC<SpotOwnerRatingCardProps> = ({ spotId, owner
                             <textarea
                                 value={editedReview}
                                 onChange={handleInputChange}
-                                className="w-full bg-transparent focus:px-2"
+                                className="w-full bg-transparent border-2 border-yellow-300 rounded-md px-2"
+                                style={{ minHeight: textareaHeight }}
                             />
                         </div>
-                        <div className="flex flex-col items-end w-full ">
+                        <div className="flex flex-col items-start w-full ">
                             <RatingStars
-                                userRating={userRating}
+                                userRating={editedRating}
                                 isEditing={true}
                                 onChange={handleRatingChange}
                             />
-                            <p>- {owner.firstName} {owner.lastName}</p>
+                            <p className="text-gray-300">- {owner.firstName} {owner.lastName}</p>
                         </div>
                     </div>
 
@@ -109,7 +129,7 @@ const SpotOwnerRatingCard: React.FC<SpotOwnerRatingCardProps> = ({ spotId, owner
                         {
                             (user!._id === owner._id || user!.role === 'ADMIN') &&
                             <>
-                                <button onClick={handleSave}>
+                                <button onClick={handleSaveChanges}>
                                     <img src={check} alt='save' className="w-6 h-6" />
                                 </button>
                                 <button onClick={handleCancelEditing} className="ml-8">

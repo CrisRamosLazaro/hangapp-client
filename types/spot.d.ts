@@ -21,8 +21,8 @@ export interface SpotCreationData {
     phone: string
     openHours: string[]
     address: Address
-    userReview?: string
-    userRating?: number
+    userReview: string
+    userRating: number
     owner: string
     comment?: string
     [key: string]: any

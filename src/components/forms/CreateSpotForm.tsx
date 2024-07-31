@@ -59,7 +59,7 @@ const CreateSpotForm = () => {
     }
 
     const handleRatingChange = (newRating: number) => {
-        setEditedRating(newRating + 1)
+        setEditedRating(newRating)
         setSpotData({ ...spotData, userRating: newRating + 1 })
     }
 
