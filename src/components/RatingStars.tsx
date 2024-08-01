@@ -1,90 +1,74 @@
 import { useState, useEffect } from 'react'
 import { RatingStarsProps } from 'types/formField'
 
-
 const RatingStars: React.FC<RatingStarsProps> = ({ userRating, onChange, isEditing }) => {
 
     const [currentRating, setCurrentRating] = useState<number>(userRating)
-    const [ratingOnHover, setRatingOnHover] = useState<number | null>(userRating)
+    const [ratingOnHover, setRatingOnHover] = useState<number | null>(null)
     const [hasClicked, setHasClicked] = useState<boolean>(false)
-    const [hasHovered, setHasHovered] = useState<boolean>(false)
 
-    // useEffect(() => {
-    //     setCurrentRating(userRating)
-    //     console.log("UserRating in STARS", userRating)
-    //     console.log("currentRating in STARS", currentRating)
-    // }, [userRating])
+    useEffect(() => {
+        setCurrentRating(userRating)
+    }, [userRating])
 
-    const starsDisplay = ['☆', '☆', '☆', '☆', '☆']
-
-    const newStarsDisplay = starsDisplay.map((star, i) => {
-        if (userRating === 0) {
-            return '☆'
-        } else if (i < userRating && userRating !== 0) {
-            return '★'
-        } else {
-            return '☆'
-        }
-    })
-
-    const handleMouseEnter = (i: number) => {
-        setHasHovered(true)
-        setRatingOnHover(i)
+    const handleMouseEnter = (index: number) => {
+        setRatingOnHover(index)
     }
 
     const handleMouseLeave = () => {
-        if (!hasClicked) {
-            setRatingOnHover(null)
-        }
+        setRatingOnHover(null)
     }
 
     const handleClick = (index: number) => {
         setHasClicked(true)
+        setCurrentRating(index)
         onChange(index)
+    }
+
+    const handleResetRating = () => {
+        setHasClicked(true)
+        setCurrentRating(-1)
+        onChange(-1)
     }
 
     const getStarDisplay = (index: number) => {
         if (ratingOnHover !== null) {
             return index <= ratingOnHover ? '★' : '☆'
         }
-        return '☆'
+        return currentRating === 0 ? '☆' : (index <= currentRating ? '★' : '☆')
     }
 
     return (
         <div>
-            {!isEditing
-                ? <>{newStarsDisplay.join('')}</>
-                : !hasHovered
-                    ? <div onMouseEnter={() => handleMouseEnter(0)} >
-                        {newStarsDisplay.join('')}
-                    </div>
-                    : <>
-                        {starsDisplay.map((star, i) => {
-                            !hasClicked
-                                ? (
-                                    <span
-                                        key={i}
-                                        onMouseEnter={() => handleMouseEnter(i)}
-                                        onMouseLeave={handleMouseLeave}
-                                        onClick={() => handleClick(i)}
-                                        style={{ cursor: 'pointer' }}
-                                    >
-                                        {getStarDisplay(i)}
-                                    </span>
-                                ) : (
-                                    <span
-                                        key={i}
-                                        onClick={() => handleClick(i)}
-                                        style={{ cursor: 'pointer' }}
-                                    >
-                                        {getStarDisplay(i)}
-                                    </span>
-                                )
-                        }
-                        )}
-                    </>
-            }
-
+            {isEditing ? (
+                <div>
+                    {Array.from({ length: 5 }, (_, i) => (
+                        <span
+                            key={i}
+                            onMouseEnter={() => handleMouseEnter(i)}
+                            onMouseLeave={handleMouseLeave}
+                            onClick={() => handleClick(i)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            {getStarDisplay(i)}
+                        </span>
+                    ))}
+                    <span
+                        onClick={handleResetRating}
+                        style={{ cursor: 'pointer', marginLeft: '10px' }}
+                    >
+                        clear
+                    </span>
+                </div>
+            ) : (
+                <div>
+                    {Array.from({ length: 5 }, (_, i) => (
+                        <span key={i}>
+                            {getStarDisplay(i)}
+                        </span>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
