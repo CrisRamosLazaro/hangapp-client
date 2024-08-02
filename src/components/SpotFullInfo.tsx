@@ -7,6 +7,7 @@ import trashCan from '@/assets/icons/trash-can-white.svg'
 import GoogleMapsPage from '@/pages/GoogleMapsPage'
 import FavoriteButton from './forms/FavoriteButton'
 import SpotOwnerRatingCard from './SpotOwnerRatingCard'
+import Button from './atoms/Button'
 
 const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, photoOptions, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
 
@@ -130,11 +131,9 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, photoOptions, des
                 </div>
 
                 <div className="">
-                    <button className="mt-12 bg-yellow-600 hover:bg-yellow-800 text-white font-bold py-2 px-4 rounded">
-                        <Link to={`/spots/`}>
-                            Back to all spots
-                        </Link>
-                    </button>
+                    <Link to={`/spots/`}>
+                        <Button text="Back to all spots" />
+                    </Link>
                 </div>
             </div>
             {

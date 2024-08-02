@@ -229,11 +229,8 @@ const CreateSpotForm = () => {
                     </div>
 
                 </form>
-
             </div >
-
         </div >
-
     )
 }
 

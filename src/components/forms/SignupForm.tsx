@@ -6,6 +6,7 @@ import { UserSignupData } from "types/user"
 import { ErrorMessages } from "types/errors"
 import userFields from "@/consts/userFields"
 import FormField from "@/components/form-fields/FormField"
+import Button from "../atoms/Button"
 
 const SignupForm: React.FC = () => {
 
@@ -103,14 +104,12 @@ const SignupForm: React.FC = () => {
                     </div> */}
 
 
-                    <div className="mt-8">
-                        <button
-                            className="bg-yellow-500 hover:bg-yellow-600 w-1/2 rounded p-1"
+                    <div className="mt-4">
+                        <Button
                             disabled={loadingAvatar}
                             type="submit"
-                        >
-                            {loadingAvatar ? 'LOADING IMAGE...' : 'SIGNUP'}
-                        </button>
+                            text={loadingAvatar ? 'LOADING IMAGE...' : 'SIGNUP'}
+                        />
                     </div>
 
                 </form>

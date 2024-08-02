@@ -41,6 +41,6 @@ class CommentServices {
 
 }
 
-const spotServices = new CommentServices()
+const commentServices = new CommentServices()
 
-export default spotServices
+export default commentServices

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { SpotFullData } from 'types/spot'
+import Button from './atoms/Button'
 
 const SpotCard: React.FC<SpotFullData> = ({ address, categories, spotImg, description, name, userRating, _id }) => {
 
@@ -38,11 +39,12 @@ const SpotCard: React.FC<SpotFullData> = ({ address, categories, spotImg, descri
                     <h1 className="text-sm font-bold">Rating: {userRating}</h1>
 
                     <div className="d-grid">
-                        <button className="mt-3 bg-yellow-600 hover:bg-yellow-800 text-white font-bold py-2 px-4 rounded">
-                            <Link to={`/spots/${_id}`}>
-                                View Details
-                            </Link>
-                        </button>
+                        <Link to={`/spots/${_id}`}>
+                            <Button
+                                type="button"
+                                text="View Details"
+                            />
+                        </Link>
                     </div>
                 </div>
 

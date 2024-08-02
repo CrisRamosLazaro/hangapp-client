@@ -7,6 +7,7 @@ import { LoginData } from 'types/user'
 import { ErrorMessages } from "types/errors"
 import userFields from "@/consts/userFields"
 import FormField from "@/components/form-fields/FormField"
+import Button from "../atoms/Button"
 import Loader from "@/components/Loader"
 
 
@@ -89,8 +90,11 @@ const LoginForm: React.FC = () => {
                             )
                         })}
 
-                    <div className="mt-8">
-                        <button type="submit" className="bg-yellow-500 hover:bg-yellow-600 w-1/2 rounded p-1">LOGIN</button>
+                    <div className="mt-4">
+                        <Button
+                            text='Login'
+                            type='submit'
+                        />
                     </div>
 
                 </form>

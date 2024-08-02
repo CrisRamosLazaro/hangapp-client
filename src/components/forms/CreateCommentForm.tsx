@@ -4,6 +4,7 @@ import { AuthContext } from "@/contexts/auth.context"
 import { CommentCreationData, CreateCommentFormProps } from "types/comment"
 import commentServices from "@/services/comment.services"
 import { useParams } from 'react-router-dom'
+import Button from "../atoms/Button"
 
 const CreateCommentForm: React.FC<CreateCommentFormProps> = ({ refreshCommentFeed }) => {
 
@@ -55,12 +56,10 @@ const CreateCommentForm: React.FC<CreateCommentFormProps> = ({ refreshCommentFee
                 </div>
 
                 <div className="">
-                    <button
+                    <Button
+                        text="Post"
                         type="submit"
-                        className="bg-yellow-600 hover:bg-yellow-800 text-white font-bold py-2 px-4 rounded"
-                    >
-                        Post
-                    </button>
+                    />
                 </div>
 
             </form>
