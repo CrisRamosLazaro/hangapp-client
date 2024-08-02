@@ -9,6 +9,7 @@ import { initialValues } from "@/consts/spotFormInitialValues"
 import { SpotCreationData } from "types/spot"
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
 import RatingStars from "../RatingStars"
+import Loader from "../Loader"
 
 const CreateSpotForm = () => {
 
@@ -28,10 +29,10 @@ const CreateSpotForm = () => {
     const [googlePlace, setGooglePlace] = useState<string>('')
     const [selectedCategories, setSelectedCategories] = useState<string[]>([])
     const [editedRating, setEditedRating] = useState<number>(0)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     useEffect(() => {
         setDataUpdated(true)
-        console.log("DATA UPDATED", spotData)
     }, [spotData])
 
 
@@ -63,6 +64,10 @@ const CreateSpotForm = () => {
         setSpotData({ ...spotData, userRating: newRating + 1 })
     }
 
+    const handlePhotoChange = (selectedUrl: string) => {
+        setSpotData({ ...spotData, spotImg: selectedUrl })
+    }
+
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Backspace' || e.key === 'Delete') {
             setSpotData(initialObject)
@@ -71,16 +76,18 @@ const CreateSpotForm = () => {
 
     const handleChange = (suggestion: string) => setGooglePlace(suggestion)
 
-    async function handleSelect(suggestion: string) {
-
+    const handleSelect = async (suggestion: string) => {
+        setIsLoading(true)
         try {
             const results = await geocodeByAddress(suggestion)
             const { place_id } = results[0]
-            const res = await spotsService.getOneSpot(place_id)
+            const res = await spotsService.getOneGooglePlace(place_id)
             const formattedPlace = res.data
             setSpotData({ ...spotData, ...formattedPlace })
         } catch (error) {
             console.error('Error in handleSelect', error)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -142,8 +149,11 @@ const CreateSpotForm = () => {
                         )}
                     </PlacesAutocomplete>
 
+                    {isLoading && <Loader />}
+
                     {spotFields.map(field => {
                         const { label, placeholder, type, autoComplete, id, component, optionsArr } = field
+
                         return (
 
                             component === 'checkbox' ? (
@@ -166,7 +176,6 @@ const CreateSpotForm = () => {
                             ) : (
                                 <div key={id}>
                                     < FormField
-
                                         label={label}
                                         htmlFor={id}
                                         placeholder={placeholder}
@@ -177,7 +186,34 @@ const CreateSpotForm = () => {
                                         id={id}
                                         onChange={handleInputChange}
                                     />
-                                    {id === 'spotImg' && <img src={spotData[id]} />}
+                                    {(id === 'spotImg' && spotData[id] !== '') && (
+                                        <>
+                                            <div className="shadow-md outline-none p-2 rounded-md">
+                                                <div className="h-[250px] overflow-hidden relative rounded-md" >
+                                                    <img
+                                                        className="object-cover w-full h-full"
+                                                        src={spotData[id]}
+                                                        alt={`${spotData.name} image`}
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col mt-4">
+                                                    <p className="mb-2 text-left text-gray-400">Select main image:</p>
+                                                    <div className="flex gap-5">
+                                                        {spotData.photoOptions?.length > 1 &&
+                                                            spotData.photoOptions.map((photoUrl, index) => (
+                                                                <div className="w-32 h-16 overflow-hidden rounded-md" key={index}>
+                                                                    <img
+                                                                        src={photoUrl}
+                                                                        onClick={() => handlePhotoChange(photoUrl)}
+                                                                        className="object-cover w-full h-full cursor-pointer"
+                                                                    />
+                                                                </div>
+                                                            ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             )
                         )

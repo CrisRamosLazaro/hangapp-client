@@ -10,10 +10,16 @@ const FormField = ({ label, htmlFor, placeholder, placeholderIcon, type, value, 
         setIsPasswordVisible(!isPasswordVisible)
     }
 
-    const classCss = `w-full bg-transparent border-none shadow-md outline-none p-2 rounded-md bg-no-repeat bg-right-10-center bg-20 focus:bg-yellow-100 focus:bg-opacity-50 ${placeholderIcon}`
+    const classCss = `w-full border-none shadow-md outline-none p-2 rounded-md 
+    bg-transparent bg-no-repeat bg-right-10-center bg-20
+    focus:bg-yellow-100 focus:bg-opacity-50
+     ${placeholderIcon}
+     ${type === 'textarea' ? ' h-16' : ''}
+     ${(id === 'spotImg' || id === 'photoOptions') ? 'hidden' : ''}
+     `
 
     const inputProps = {
-        className: classCss + (type === 'textarea' ? ' h-16' : ''),
+        className: classCss,
         placeholder: placeholder,
         autoComplete: autoComplete || "on",
         value: value,

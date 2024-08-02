@@ -16,7 +16,8 @@ export interface SpotCreationData {
     placeId?: string
     name: string
     description: string
-    spotImg?: string
+    spotImg: string
+    photoOptions: string[]
     categories: string[]
     phone: string
     openHours: string[]

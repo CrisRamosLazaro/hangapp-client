@@ -57,7 +57,7 @@ const RatingStars: React.FC<RatingStarsProps> = ({ userRating, onChange, isEditi
                         onClick={handleResetRating}
                         style={{ cursor: 'pointer', marginLeft: '10px' }}
                     >
-                        clear
+                        zero
                     </span>
                 </div>
             ) : (

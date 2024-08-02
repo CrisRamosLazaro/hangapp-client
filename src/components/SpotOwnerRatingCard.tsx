@@ -110,7 +110,7 @@ const SpotOwnerRatingCard: React.FC<SpotOwnerRatingCardProps> = ({ spotId, owner
                                     <p
                                         key={`review-editing-${isEditingForm.toString()}`}
                                         ref={pRef}
-                                        className="text-left px-2 border-2 border-transparent"
+                                        className="text-left border-2 border-transparent"
                                     >
                                         {editedReview}
                                     </p>

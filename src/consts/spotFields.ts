@@ -19,12 +19,20 @@ const spotFields = [
         placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
     },
     {
-        label: 'image',
+        label: 'main image',
         placeholder: 'image',
         type: "text",
         autoComplete: "off",
         id: "spotImg",
-        placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
+        placeholderIcon: '',
+    },
+    {
+        label: 'choose an image',
+        placeholder: 'choose an image',
+        type: "text",
+        autoComplete: "off",
+        id: "photoOptions",
+        placeholderIcon: '',
     },
     {
         component: "checkbox",
@@ -32,9 +40,9 @@ const spotFields = [
         label: 'category',
         placeholder: 'categories',
         type: "checkbox",
-        autoComplete: "category",
+        autoComplete: "off",
         id: "category",
-        placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
+        placeholderIcon: '',
     },
     {
         label: 'phone number',
@@ -48,7 +56,7 @@ const spotFields = [
         label: 'open hours',
         placeholder: 'open hours',
         type: "textarea",
-        autoComplete: "openHours",
+        autoComplete: "off",
         id: "openHours",
         placeholderIcon: 'placeholder-dark-grafitti bg-email-input-light',
     },
@@ -72,7 +80,7 @@ const spotFields = [
         component: 'rating-stars',
         label: 'rate this place',
         id: "userRating",
-        //The only way CreateSpotForm would work (?!)
+        //The only way CreateSpotForm would work is to have these properties below (?!)
         type: '',
         optionsArr: ["none"],
         placeholder: ''

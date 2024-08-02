@@ -23,6 +23,10 @@ class SpotServices {
         })
     }
 
+    getOneGooglePlace(place_id: string) {
+        return this.api.get(`/get-one-google-place/${place_id}`)
+    }
+
     createSpot(spotData: SpotCreationData) {
         return this.api.post(`/create-spot`, spotData)
     }
@@ -31,12 +35,8 @@ class SpotServices {
         return this.api.get('/get-all-spots')
     }
 
-    getOneSpot(place_id: string) {
-        return this.api.get(`/get-one-spot/${place_id}`)
-    }
-
-    getSpotFullInfo(spot_id: string) {
-        return this.api.get(`/${spot_id}/get-full-info`)
+    getOneSpot(spot_id: string) {
+        return this.api.get(`/${spot_id}/get-one-spot`)
     }
 
     getUserSpots(user_id: string) {

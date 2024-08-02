@@ -3,6 +3,7 @@ export const initialValues = {
     name: '',
     description: '',
     spotImg: '',
+    photoOptions: [],
     categories: [],
     phone: '',
     address: {

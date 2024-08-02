@@ -8,7 +8,7 @@ import GoogleMapsPage from '@/pages/GoogleMapsPage'
 import FavoriteButton from './forms/FavoriteButton'
 import SpotOwnerRatingCard from './SpotOwnerRatingCard'
 
-const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
+const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, photoOptions, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
 
     const { user } = useContext(AuthContext)
     const { spot_id } = useParams()
@@ -98,6 +98,23 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, description, owne
                         </ul>
                     </div>
                 </div>
+
+
+                <div className="flex flex-col my-8 shadow py-2 px-8">
+                    <p className="mb-2 text-left font-bold">More photos</p>
+                    <div className="flex gap-5">
+                        {photoOptions.length > 1 &&
+                            photoOptions.map((photoUrl: string, i: number) => (
+                                <div className="w-32 h-16 overflow-hidden rounded-md" key={i}>
+                                    <img
+                                        src={photoUrl}
+                                        className="object-cover w-full h-full "
+                                    />
+                                </div>
+                            ))}
+                    </div>
+                </div>
+
 
                 <div className="flex justify-center align-middle items-center w-full h-[400px] shadow rounded-md">
                     <GoogleMapsPage address={address.streetAddress || ''} location={address.location} />

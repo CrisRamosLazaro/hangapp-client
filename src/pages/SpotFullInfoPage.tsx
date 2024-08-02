@@ -22,7 +22,7 @@ const SpotFullInfoPage = () => {
     const loadSpotInfo = async () => {
 
         try {
-            const response = await spotServices.getSpotFullInfo(spot_id!)
+            const response = await spotServices.getOneSpot(spot_id!)
             setSpotInfo(response.data)
 
         } catch (err) {
