@@ -27,6 +27,14 @@ class GroupServices {
         return this.api.post(`/create-group`, groupData)
     }
 
+    getAllGroups() {
+        return this.api.get(`/all-groups`)
+    }
+
+    deleteGroup(group_id: string) {
+        return this.api.delete(`/${group_id}/delete`)
+    }
+
 }
 
 const groupServices = new GroupServices()

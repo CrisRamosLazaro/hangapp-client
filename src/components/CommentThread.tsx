@@ -1,5 +1,5 @@
 import CreateCommentForm from "./forms/CreateCommentForm"
-import CommentCard from "./CommentCard"
+import CommentCard from "./cards/CommentCard"
 import { CommentThreadProps, CommentData } from "types/comment"
 import commentServices from "@/services/comment.services"
 import { useEffect, useState, useCallback } from "react"

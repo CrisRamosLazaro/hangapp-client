@@ -7,3 +7,14 @@ export interface GroupCreationData {
     members: string[]
     [key: string]: any
 }
+
+export interface GroupCardProps
+    extends Omit<GroupCreationData, 'owner'> {
+    owner: User
+    refreshListOfGroups: () => void
+
+}
+
+export interface CreateGroupFormProps {
+    refreshListOfGroups: () => void
+}

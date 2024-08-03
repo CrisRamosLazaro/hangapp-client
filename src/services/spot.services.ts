@@ -32,7 +32,7 @@ class SpotServices {
     }
 
     getAllSpots() {
-        return this.api.get('/get-all-spots')
+        return this.api.get('/all-spots')
     }
 
     getOneSpot(spot_id: string) {

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { SpotFullData } from 'types/spot'
-import Button from './atoms/Button'
+import Button from '@/components/atoms/Button'
 
 const SpotCard: React.FC<SpotFullData> = ({ address, categories, spotImg, description, name, userRating, _id }) => {
 

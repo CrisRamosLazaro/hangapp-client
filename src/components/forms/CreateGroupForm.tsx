@@ -2,21 +2,22 @@ import { useState, useContext, ChangeEvent, FormEvent } from 'react'
 import { AuthContext } from '@/contexts/auth.context'
 import groupFields from '@/consts/groupFields'
 import FormField from '../form-fields/FormField'
-import { GroupCreationData } from 'types/group'
+import { GroupCreationData, CreateGroupFormProps } from 'types/group'
 import Button from '../atoms/Button'
 import groupServices from '@/services/group.services'
 
-// const NewGroupForm = ({ closeModal, updateList }) => {
-const CreateGroupForm = () => {
+const CreateGroupForm: React.FC<CreateGroupFormProps> = ({ refreshListOfGroups }) => {
 
     const { user } = useContext(AuthContext)
 
-    const [groupData, setGroupData] = useState<GroupCreationData>({
+    const groupInitialValues = {
         name: '',
         description: '',
         owner: user!._id,
         members: [user!._id],
-    })
+    }
+
+    const [groupData, setGroupData] = useState<GroupCreationData>(groupInitialValues)
 
     const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const { name, value } = e.target
@@ -28,7 +29,10 @@ const CreateGroupForm = () => {
 
         groupServices
             .createGroup(groupData)
-            .then(() => console.log("success!"))
+            .then(() => {
+                refreshListOfGroups()
+                setGroupData(groupInitialValues)
+            })
             .catch(err => console.error(err))
     }
 

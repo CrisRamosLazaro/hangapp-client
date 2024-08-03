@@ -3,11 +3,11 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '@/contexts/auth.context'
 import { SpotFullData } from 'types/spot'
 import spotServices from '@/services/spot.services'
-import trashCan from '@/assets/icons/trash-can-white.svg'
 import GoogleMapsPage from '@/pages/GoogleMapsPage'
 import FavoriteButton from './forms/FavoriteButton'
-import SpotOwnerRatingCard from './SpotOwnerRatingCard'
+import SpotOwnerRatingCard from './cards/SpotOwnerRatingCard'
 import Button from './atoms/Button'
+import ButtonDelete from './atoms/ButtonDelete'
 
 const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, photoOptions, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
 
@@ -139,13 +139,7 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, photoOptions, des
             {
                 (user!._id === owner._id || user!.role === 'ADMIN') &&
                 <div className="flex justify-end items-center rounded-b-lg mt-3">
-                    <button
-                        onClick={handleDelete}
-                        className="flex justify-center items-center w-32 bg-red-800 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-                    >
-                        <img src={trashCan} className="w-8 h-8" />
-                        <p className="pl-2">Delete</p>
-                    </button>
+                    <ButtonDelete onClick={handleDelete} />
                 </div>
 
             }

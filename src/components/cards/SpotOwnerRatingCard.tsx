@@ -1,12 +1,12 @@
 import { useContext, useState, useEffect, useRef, ChangeEvent, FormEvent } from 'react'
 import { AuthContext } from '@/contexts/auth.context'
-import RatingStars from "./RatingStars"
+import RatingStars from "@/components/RatingStars"
 import pencil from '@/assets/icons/pencil.svg'
 import close from '@/assets/icons/close.svg'
 import check from '@/assets/icons/check.svg'
 import { User } from 'types/user'
 import spotServices from '@/services/spot.services'
-import Loader from './Loader'
+import Loader from '@/components/Loader'
 
 interface SpotOwnerRatingCardProps {
     spotId: string

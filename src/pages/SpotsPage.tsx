@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import spotServices from '@/services/spot.services'
-import SpotCard from "@/components/SpotCard"
-import { SpotData } from 'types/spot'
+import SpotCard from '@/components/cards/SpotCard'
+import { SpotFullData } from 'types/spot'
 
 
 const SpotsPage = () => {
 
-    const [spotsData, setSpotsData] = useState<SpotData[]>([])
+    const [spotsData, setSpotsData] = useState<SpotFullData[]>([])
     const [spotsDataBackup, setSpotsDataBackup] = useState()
 
     useEffect(() => {
