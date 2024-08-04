@@ -9,6 +9,7 @@ import userFields from "@/consts/userFields"
 import FormField from "@/components/form-fields/FormField"
 import Button from "../atoms/Button"
 import Loader from "@/components/Loader"
+import { MessageContext } from "@/contexts/message.context"
 
 
 const LoginForm: React.FC = () => {
@@ -24,6 +25,7 @@ const LoginForm: React.FC = () => {
     const navigate = useNavigate()
 
     const { user, authenticateUser, storeToken } = useContext(AuthContext)
+    const { emitMessage } = useContext(MessageContext)
 
     useEffect(() => {
         const token = localStorage.getItem('authToken')
@@ -53,10 +55,12 @@ const LoginForm: React.FC = () => {
             const { data } = await authService.login(loginData)
             storeToken(data.authToken)
             authenticateUser()
+            emitMessage("Welcome back!")
         } catch (err: any) {
             setErrorMessages(err.response.data.errorMessages)
         }
     }
+
 
     return (
         <div>

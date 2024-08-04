@@ -1,7 +1,8 @@
+import './App.css'
 import AppRoutes from '@/routes/AppRoutes'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import './App.css'
+import Toaster from '@/components/Toaster'
 
 const App: React.FC = () => {
   return (
@@ -9,6 +10,7 @@ const App: React.FC = () => {
       <Navigation />
       <div className="flex-grow">
         <AppRoutes />
+        <Toaster />
       </div>
       <Footer />
     </div>
