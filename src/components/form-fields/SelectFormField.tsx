@@ -1,8 +1,8 @@
 import { useState, useEffect, ChangeEvent } from 'react'
 import { SelectFormFieldType } from 'types/formField'
-import ErrorMessage from "@/components/ErrorMessage"
+import ErrorMessage from "@/components/atoms/ErrorMessage"
 
-const SelectFormField = ({ label, htmlFor, id, value, name, type, placeholder, placeholderIcon, onChange, optionsArr, error }: SelectFormFieldType) => {
+const SelectFormField = ({ label, htmlFor, id, value, name, type, placeholder, onChange, optionsArr, error }: SelectFormFieldType) => {
 
     const [options, setOptions] = useState<string[]>([])
     const [isOpen, setIsOpen] = useState(false)

@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect, ChangeEvent, FormEvent } from "react"
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from "@/contexts/auth.context"
-import authService from '@/services/auth.services'
 import isTokenValid from "@/utils/token-validation.utils"
 import { LoginData } from 'types/user'
 import { ErrorMessages } from "types/errors"
@@ -9,8 +8,8 @@ import userFields from "@/consts/userFields"
 import FormField from "@/components/form-fields/FormField"
 import Button from "../atoms/Button"
 import Loader from "@/components/Loader"
+import { loginAndAuthenticateUser, getLoginRedirectPath } from "@/utils/auth.utils"
 import { MessageContext } from "@/contexts/message.context"
-
 
 const LoginForm: React.FC = () => {
 
@@ -51,15 +50,16 @@ const LoginForm: React.FC = () => {
         e.preventDefault()
         setIsLoading(true)
 
-        try {
-            const { data } = await authService.login(loginData)
-            storeToken(data.authToken)
-            authenticateUser()
-            emitMessage("Welcome back!", "regular")
-        } catch (err: any) {
-            setErrorMessages(err.response.data.errorMessages)
-            emitMessage("Problems logging in", "danger")
-        }
+        loginAndAuthenticateUser({
+            loginData,
+            storeToken,
+            authenticateUser,
+            navigate,
+            getRedirectPath: getLoginRedirectPath,
+            emitMessage,
+            setErrorMessages,
+            setIsLoading
+        })
     }
 
 

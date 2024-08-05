@@ -1,16 +1,7 @@
-import { createContext, useState, Dispatch, SetStateAction, ReactNode, useEffect } from "react"
+import { createContext, useState, ReactNode, useEffect } from "react"
 import authService from "@/services/auth.services"
 import { User } from "types/user"
-
-
-interface AuthContextInterface {
-    user: User | null
-    setUser: Dispatch<SetStateAction<User | null>>
-    authenticateUser: () => void
-    storeToken: (token: string) => void
-    logout: () => void
-    isLoading: boolean
-}
+import { AuthContextInterface } from "types/auth"
 
 const defaultState: AuthContextInterface = {
     user: null,

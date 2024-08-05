@@ -1,6 +1,5 @@
 // import { useState, useEffect, ChangeEvent } from 'react'
 import { CheckboxFormFieldType } from 'types/formField'
-import ErrorMessage from "@/components/ErrorMessage"
 
 const CheckboxFormField: React.FC<CheckboxFormFieldType> = ({ optionsArr, selectedOptions, placeholder, onChange }) => {
 

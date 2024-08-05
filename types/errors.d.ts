@@ -5,3 +5,8 @@ export type ErrorMessages = {
 export type ErrorMessageProps = {
     message: string | undefined
 }
+
+export interface ErrorResponseData {
+    field: string
+    message: string
+}

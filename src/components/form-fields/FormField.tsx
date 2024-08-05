@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FormFieldType } from 'types/formField'
-import ErrorMessage from "@/components/ErrorMessage"
+import ErrorMessage from "@/components/atoms/ErrorMessage"
 
 const FormField = ({ label, htmlFor, placeholder, placeholderIcon, type, value, name, id, autoComplete, onChange, error }: FormFieldType) => {
 
