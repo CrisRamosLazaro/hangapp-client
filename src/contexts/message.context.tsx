@@ -1,19 +1,22 @@
 import { createContext, useState, ReactNode } from 'react'
+import { ToasterVariant } from 'types/toaster'
 
 interface MessageContextInterface {
     toastMessage: string
-    emitMessage: (text: string) => void
+    emitMessage: (text: string, variant: ToasterVariant) => void
     showToast: boolean
     isHiding: boolean
     closeMessage: () => void
+    variant: ToasterVariant
 }
 
 const defaultState: MessageContextInterface = {
-    toastMessage: 'null',
+    toastMessage: '',
     emitMessage: () => { },
     showToast: false,
     isHiding: false,
     closeMessage: () => { },
+    variant: 'regular'
 }
 
 
@@ -26,12 +29,14 @@ const MessageContext = createContext<MessageContextInterface>(defaultState)
 const MessageProviderWrapper: React.FC<MessageProviderWrapperProps> = ({ children }) => {
 
     const [showToast, setShowToast] = useState<boolean>(false)
-    const [toastMessage, setToastMessage] = useState<string>('Testing')
+    const [toastMessage, setToastMessage] = useState<string>('')
     const [isHiding, setIsHiding] = useState(false)
+    const [variant, setVariant] = useState<ToasterVariant>("regular")
 
 
-    const emitMessage = (text: string) => {
+    const emitMessage = (text: string, variantType: ToasterVariant) => {
         setToastMessage(text)
+        setVariant(variantType)
         setShowToast(true)
     }
 
@@ -45,7 +50,7 @@ const MessageProviderWrapper: React.FC<MessageProviderWrapperProps> = ({ childre
 
     return (
         <MessageContext.Provider
-            value={{ toastMessage, emitMessage, showToast, isHiding, closeMessage }}
+            value={{ toastMessage, emitMessage, showToast, isHiding, closeMessage, variant }}
         >
             {children}
         </MessageContext.Provider>

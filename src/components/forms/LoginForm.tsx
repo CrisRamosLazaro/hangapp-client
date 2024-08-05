@@ -55,9 +55,10 @@ const LoginForm: React.FC = () => {
             const { data } = await authService.login(loginData)
             storeToken(data.authToken)
             authenticateUser()
-            emitMessage("Welcome back!")
+            emitMessage("Welcome back!", "regular")
         } catch (err: any) {
             setErrorMessages(err.response.data.errorMessages)
+            emitMessage("Problems logging in", "danger")
         }
     }
 
