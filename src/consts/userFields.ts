@@ -19,7 +19,7 @@ const userFields = [
         placeholderIcon: 'placeholder-dark-grafitti bg-person-input-light',
     },
     {
-        label: 'firstName',
+        label: 'first_name',
         htmlFor: 'firstName',
         placeholder: 'first_name',
         type: "text",
@@ -28,7 +28,7 @@ const userFields = [
         placeholderIcon: 'placeholder-dark-grafitti bg-person-input-light',
     },
     {
-        label: 'lastName',
+        label: 'last_name',
         htmlFor: 'lastName',
         placeholder: 'last_name',
         type: "text",

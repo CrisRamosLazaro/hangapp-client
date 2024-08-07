@@ -1,27 +1,9 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
+import createApiClient from './apiClient'
 import { CommentCreationData } from 'types/comment'
 
 class CommentServices {
 
-    private api: AxiosInstance
-
-    constructor() {
-
-        this.api = axios.create({
-            baseURL: `${import.meta.env.VITE_API_URL}/spots`
-        })
-
-        this.api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-
-            const storedToken = localStorage.getItem("authToken")
-
-            if (storedToken) {
-                config.headers.Authorization = `Bearer ${storedToken}`
-            }
-
-            return config
-        })
-    }
+    private api = createApiClient(`${import.meta.env.VITE_API_URL}/spots`)
 
     createComment(commentData: CommentCreationData) {
         return this.api.post(`/create-comment`, commentData)

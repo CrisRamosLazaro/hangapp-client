@@ -1,7 +1,6 @@
-import { useContext, useState, useEffect, ChangeEvent, FormEvent } from "react"
-import { useNavigate } from 'react-router-dom'
+import { useContext, useState, ChangeEvent, FormEvent } from "react"
+import { useNavigate, useLocation } from 'react-router-dom'
 import { AuthContext } from "@/contexts/auth.context"
-import isTokenValid from "@/utils/token-validation.utils"
 import { LoginData } from 'types/user'
 import { ErrorMessages } from "types/errors"
 import userFields from "@/consts/userFields"
@@ -10,11 +9,15 @@ import Button from "../atoms/Button"
 import Loader from "@/components/Loader"
 import { loginAndAuthenticateUser, getLoginRedirectPath } from "@/utils/auth.utils"
 import { MessageContext } from "@/contexts/message.context"
+import { useTranslation } from "react-i18next"
+import ErrorMessage from "../atoms/ErrorMessage"
 
 const LoginForm: React.FC = () => {
 
+    const { t } = useTranslation()
+
     const [errorMessages, setErrorMessages] = useState<ErrorMessages>({})
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const [loginData, setLoginData] = useState<LoginData>({
         email: '',
@@ -22,23 +25,13 @@ const LoginForm: React.FC = () => {
     })
 
     const navigate = useNavigate()
+    const location = useLocation()
 
-    const { user, authenticateUser, storeToken } = useContext(AuthContext)
+    const queryParams = new URLSearchParams(location.search)
+    const message = queryParams.get('message')
+
+    const { authenticateUser, storeToken } = useContext(AuthContext)
     const { emitMessage } = useContext(MessageContext)
-
-    useEffect(() => {
-        const token = localStorage.getItem('authToken')
-        if (token && !isTokenValid(token)) {
-            localStorage.removeItem('authToken')
-        }
-    }, [])
-
-    useEffect(() => {
-        if (user && isLoading) {
-            setIsLoading(false)
-            navigate(`/spots`)
-        }
-    }, [user, isLoading, navigate])
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value, name } = e.target
@@ -58,7 +51,7 @@ const LoginForm: React.FC = () => {
             getRedirectPath: getLoginRedirectPath,
             emitMessage,
             setErrorMessages,
-            setIsLoading
+            setIsLoading,
         })
     }
 
@@ -79,9 +72,9 @@ const LoginForm: React.FC = () => {
                             return (
                                 <div key={id} className="mb-4">
                                     <FormField
-                                        label={label}
+                                        label={t(label)}
                                         htmlFor={htmlFor}
-                                        placeholder={placeholder}
+                                        placeholder={t(placeholder)}
                                         type={type}
                                         autoComplete={autoComplete}
                                         value={loginData[id]}
@@ -89,15 +82,19 @@ const LoginForm: React.FC = () => {
                                         id={id}
                                         onChange={handleInputChange}
                                         placeholderIcon={placeholderIcon}
-                                        error={errorMessages[id]}
+                                        error={t(errorMessages[id])}
                                     />
                                 </div>
                             )
                         })}
 
+                    {message === "session_expired" && (
+                        <ErrorMessage message={t("session_expired")} />
+                    )}
+
                     <div className="mt-4">
                         <Button
-                            text='Login'
+                            text={t('login')}
                             type='submit'
                         />
                     </div>

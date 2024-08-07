@@ -1,10 +1,12 @@
 import { useContext, useEffect } from 'react'
 import { MessageContext } from '@/contexts/message.context'
 import getVariantStyles from '@/utils/toaster-style-setting.utils'
+import { useTranslation } from 'react-i18next'
 
 const Toaster: React.FC = () => {
 
     const context = useContext(MessageContext)
+    const { t } = useTranslation()
 
     if (!context) {
         throw new Error('The Toaster component must be used within a MessageProviderWrapper')
@@ -51,7 +53,7 @@ const Toaster: React.FC = () => {
                     </button>
                 </div>
                 <div className={`mt-2 px-6 py-3`}>
-                    {toastMessage}
+                    {t(toastMessage)}
                 </div>
             </div>
         )

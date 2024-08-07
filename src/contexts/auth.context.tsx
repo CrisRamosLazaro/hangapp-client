@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode, useEffect } from "react"
-import authService from "@/services/auth.services"
+import authServices from "@/services/auth.services"
 import { User } from "types/user"
 import { AuthContextInterface } from "types/auth"
 
@@ -40,16 +40,17 @@ const AuthProviderWrapper = ({ children }: AuthProviderProps) => {
         removeToken()
     }
 
-    const authenticateUser = () => {
+    const authenticateUser = (onSuccess = () => { }) => {
 
         const token = localStorage.getItem("authToken")
 
         if (token) {
-            authService
+            authServices
                 .verify(token)
                 .then(({ data }: { data: User }) => {
                     setUser(data)
                     setIsLoading(false)
+                    onSuccess()
                 })
                 .catch(err => {
                     console.error("Authentication error:", err)

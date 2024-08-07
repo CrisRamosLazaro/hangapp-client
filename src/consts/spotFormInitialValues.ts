@@ -1,3 +1,5 @@
+import { Role } from "types/user"
+
 export const initialValues = {
     placeId: '',
     name: '',
@@ -25,6 +27,6 @@ export const spotOwner = {
     firstName: '',
     lastName: '',
     avatar: '',
-    role: '',
+    role: 'MEMBER' as Role,
     faveSpots: []
 }

@@ -1,27 +1,9 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
-import { SpotCreationData, SpotEditableData, SpotFullData } from 'types/spot'
+import createApiClient from './apiClient'
+import { SpotCreationData, SpotEditableData } from 'types/spot'
 
 class SpotServices {
 
-    private api: AxiosInstance
-
-    constructor() {
-
-        this.api = axios.create({
-            baseURL: `${import.meta.env.VITE_API_URL}/spots`
-        })
-
-        this.api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-
-            const storedToken = localStorage.getItem("authToken")
-
-            if (storedToken) {
-                config.headers.Authorization = `Bearer ${storedToken}`
-            }
-
-            return config
-        })
-    }
+    private api = createApiClient(`${import.meta.env.VITE_API_URL}/spots`)
 
     getOneGooglePlace(place_id: string) {
         return this.api.get(`/get-one-google-place/${place_id}`)
@@ -58,7 +40,6 @@ class SpotServices {
     deleteSpot(spot_id: string) {
         return this.api.delete(`/${spot_id}/delete`)
     }
-
 }
 
 const spotServices = new SpotServices()

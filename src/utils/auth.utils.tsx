@@ -1,6 +1,6 @@
 import authService from '@/services/auth.services'
 import { Role } from 'types/user'
-import { loginAndAuthenticateUserArgs } from 'types/login'
+import { loginAndAuthenticateUserArgs } from 'types/auth'
 import { AxiosError } from 'axios'
 import { ErrorResponseData } from 'types/errors'
 
@@ -30,7 +30,16 @@ export const getLoginRedirectPath = (role: Role) => {
     }
 }
 
-export const loginAndAuthenticateUser = async ({ loginData, storeToken, authenticateUser, emitMessage, navigate, getRedirectPath, setErrorMessages, setIsLoading }: loginAndAuthenticateUserArgs): Promise<void> => {
+export const loginAndAuthenticateUser = async ({
+    loginData,
+    storeToken,
+    authenticateUser,
+    emitMessage,
+    navigate,
+    getRedirectPath,
+    setErrorMessages,
+    setIsLoading,
+}: loginAndAuthenticateUserArgs): Promise<void> => {
 
     try {
         const res = await authService.login(loginData)
@@ -38,7 +47,7 @@ export const loginAndAuthenticateUser = async ({ loginData, storeToken, authenti
         storeToken(authToken)
         localStorage.setItem('role', role)
         authenticateUser(() => {
-            emitMessage("Welcome back!", "regular")
+            emitMessage("welcome_back", "regular")
             navigate(getRedirectPath(role))
         })
 
@@ -48,14 +57,30 @@ export const loginAndAuthenticateUser = async ({ loginData, storeToken, authenti
 
         const error = err as AxiosError<ErrorResponseData>
 
-        if (error.response && error.response.status === 401) {
-            const { field, message } = error.response.data
-            setErrorMessages({ [field]: message })
-            console.error('Login error:', error)
-        }
-        else {
-            emitMessage("Problems logging in", "danger")
-            console.error("Error details:", error.response || error)
+        if (error.response) {
+            const { status, data } = error.response
+
+            if (status === 401) {
+                const { field, message } = data
+                setErrorMessages({ [field]: message })
+                console.error('Login error:', error)
+
+            } else if (status === 400) {
+                const { message } = data
+                emitMessage(message, "danger")
+                console.error('Login error:', error)
+
+            } else if (status === 500) {
+                emitMessage("internal_server_error", "danger")
+                console.error('Internal Server Error:', error)
+
+            } else {
+                emitMessage("problems_logging_in", "danger")
+                console.error("Error details:", error.response)
+            }
+        } else {
+            emitMessage("problems_logging_in", "danger")
+            console.error("Error details:", error)
         }
     }
 }
