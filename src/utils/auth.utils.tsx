@@ -38,7 +38,6 @@ export const loginAndAuthenticateUser = async ({
     navigate,
     getRedirectPath,
     setErrorMessages,
-    setIsLoading,
 }: loginAndAuthenticateUserArgs): Promise<void> => {
 
     try {
@@ -47,13 +46,10 @@ export const loginAndAuthenticateUser = async ({
         storeToken(authToken)
         localStorage.setItem('role', role)
         authenticateUser(() => {
-            emitMessage("welcome_back", "regular")
             navigate(getRedirectPath(role))
         })
 
     } catch (err) {
-
-        setIsLoading(false)
 
         const error = err as AxiosError<ErrorResponseData>
 

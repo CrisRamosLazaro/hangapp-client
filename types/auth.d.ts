@@ -23,7 +23,6 @@ export interface loginAndAuthenticateUserArgs {
     emitMessage: (message: string, variant: ToasterVariant) => void
     getRedirectPath: (role: Role) => string
     setErrorMessages: (errors: ErrorMessages) => void
-    setIsLoading: (isLoading: boolean) => void
 }
 
 export interface ValidationSchema {

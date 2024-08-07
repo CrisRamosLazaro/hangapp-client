@@ -8,7 +8,7 @@ import { UserSignupData, LoginData } from "types/user"
 import { ErrorMessages, ErrorResponseData } from "types/errors"
 import userFields from "@/consts/userFields"
 import { validateData, signupValidationSchema } from "@/utils/validation.utils"
-import { getSignupRedirectPath, loginAndAuthenticateUser } from "@/utils/auth.utils"
+import { loginAndAuthenticateUser, getSignupRedirectPath } from "@/utils/auth.utils"
 import { AuthContext } from '@/contexts/auth.context'
 import { MessageContext } from "@/contexts/message.context"
 import FormField from "@/components/form-fields/FormField"
@@ -24,13 +24,13 @@ const SignupForm: React.FC = () => {
 
     const [signupData, setSignupData] = useState<UserSignupData>({
         name: '',
+        firstName: '',
         lastName: '',
         email: '',
         password: '',
         avatar: '',
     })
 
-    const [isLoading, setIsLoading] = useState(false)
     const [loadingAvatar, setloadingAvatar] = useState(false)
     const [errorMessages, setErrorMessages] = useState<ErrorMessages>({})
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -79,7 +79,6 @@ const SignupForm: React.FC = () => {
                 getRedirectPath: getSignupRedirectPath,
                 emitMessage,
                 setErrorMessages,
-                setIsLoading
             })
 
         } catch (err) {

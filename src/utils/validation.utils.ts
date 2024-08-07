@@ -1,14 +1,21 @@
-import { UserSignupData } from "types/user"
+import { UserSignupData, LoginData } from "types/user"
 import { ValidationSchema } from "types/auth"
 import { ErrorMessages } from "types/errors"
 
 export const signupValidationSchema = {
     email: 'email_required',
+    firstName: 'first_name_required',
+    lastName: 'las_name_required',
     password: 'password_required',
     confirmPassword: 'password_confirmation_required'
 }
 
-export const validateData = (data: UserSignupData, validationSchema: ValidationSchema) => {
+export const loginValidationSchema = {
+    email: 'email_required',
+    password: 'password_required',
+}
+
+export const validateData = (data: UserSignupData | LoginData, validationSchema: ValidationSchema) => {
 
     const errors: ErrorMessages = {}
 

@@ -6,7 +6,7 @@ import { ErrorMessages } from "types/errors"
 import userFields from "@/consts/userFields"
 import FormField from "@/components/form-fields/FormField"
 import Button from "../atoms/Button"
-import Loader from "@/components/Loader"
+import { validateData, loginValidationSchema } from "@/utils/validation.utils"
 import { loginAndAuthenticateUser, getLoginRedirectPath } from "@/utils/auth.utils"
 import { MessageContext } from "@/contexts/message.context"
 import { useTranslation } from "react-i18next"
@@ -15,23 +15,22 @@ import ErrorMessage from "../atoms/ErrorMessage"
 const LoginForm: React.FC = () => {
 
     const { t } = useTranslation()
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const { authenticateUser, storeToken } = useContext(AuthContext)
+    const { emitMessage } = useContext(MessageContext)
+
+    const queryParams = new URLSearchParams(location.search)
+    const message = queryParams.get('message')
 
     const [errorMessages, setErrorMessages] = useState<ErrorMessages>({})
-    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const [loginData, setLoginData] = useState<LoginData>({
         email: '',
         password: ''
     })
 
-    const navigate = useNavigate()
-    const location = useLocation()
-
-    const queryParams = new URLSearchParams(location.search)
-    const message = queryParams.get('message')
-
-    const { authenticateUser, storeToken } = useContext(AuthContext)
-    const { emitMessage } = useContext(MessageContext)
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { value, name } = e.target
@@ -39,9 +38,15 @@ const LoginForm: React.FC = () => {
         setLoginData({ ...loginData, [name]: value })
     }
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        setIsLoading(true)
+
+        const errors = { ...validateData(loginData, loginValidationSchema) }
+        setErrorMessages(errors)
+
+        if (Object.keys(errors).length > 0) {
+            return
+        }
 
         loginAndAuthenticateUser({
             loginData,
@@ -51,7 +56,6 @@ const LoginForm: React.FC = () => {
             getRedirectPath: getLoginRedirectPath,
             emitMessage,
             setErrorMessages,
-            setIsLoading,
         })
     }
 
@@ -59,8 +63,6 @@ const LoginForm: React.FC = () => {
     return (
         <div>
             <div className="px-8 py-4 border border-gray-200 rounded-lg shadow-md">
-
-                {isLoading && <Loader />}
 
                 <form onSubmit={handleSubmit}>
 
