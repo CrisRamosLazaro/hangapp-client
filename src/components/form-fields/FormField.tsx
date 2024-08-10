@@ -15,7 +15,7 @@ const FormField = ({ label, htmlFor, placeholder, placeholderIcon, type, value, 
     focus:bg-yellow-100 focus:bg-opacity-50
      ${placeholderIcon}
      ${type === 'textarea' ? ' h-16' : ''}
-     ${(id === 'spotImg' || id === 'photoOptions') ? 'hidden' : ''}
+     ${(id === 'heroImg' || id === 'photoOptions') ? 'hidden' : ''}
      `
 
     const inputProps = {

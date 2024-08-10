@@ -4,7 +4,7 @@ export const initialValues = {
     placeId: '',
     name: '',
     description: '',
-    spotImg: '',
+    heroImg: '',
     photoOptions: [],
     categories: [],
     phone: '',

@@ -1,6 +1,8 @@
 {
     "already_have_an_account": "Already have an account?",
     "avatar": "avatar",
+    "comment_deleted": "Comment deleted successfully!",
+    "comment_edited": "Comment edited successfully!",
     "email": "email",
     "email_already_exists": "This email already exists",
     "email_not_found": "Email not found",

@@ -1,5 +1,6 @@
 import { useState, useContext, ChangeEvent } from "react"
 import { AuthContext } from "@/contexts/auth.context"
+import { MessageContext } from "@/contexts/message.context"
 import { CommentCardProps } from "types/comment"
 import trashCan from '@/assets/icons/trash-can.svg'
 import pencil from '@/assets/icons/pencil.svg'
@@ -11,6 +12,7 @@ import commentServices from '@/services/comment.services'
 const CommentCard: React.FC<CommentCardProps> = ({ content, owner, _id, spotId, refreshCommentFeed }) => {
 
     const { user } = useContext(AuthContext)
+    const { emitMessage } = useContext(MessageContext)
 
     const [isEditing, setIsEditing] = useState<boolean>(false)
     const [editedContent, setEditedContent] = useState<string>(content)
@@ -28,7 +30,10 @@ const CommentCard: React.FC<CommentCardProps> = ({ content, owner, _id, spotId, 
 
         commentServices
             .editComment(spotId, _id, editedContent)
-            .then(() => refreshCommentFeed())
+            .then(() => {
+                refreshCommentFeed()
+                emitMessage("comment_edited", "success")
+            })
             .catch(err => console.error(err))
     }
 
@@ -39,7 +44,10 @@ const CommentCard: React.FC<CommentCardProps> = ({ content, owner, _id, spotId, 
 
     const handleDelete = () => {
         commentServices.deleteComment(spotId, _id)
-            .then(() => refreshCommentFeed())
+            .then(() => {
+                refreshCommentFeed()
+                emitMessage("comment_deleted", "success")
+            })
             .catch(err => console.error(err))
     }
 

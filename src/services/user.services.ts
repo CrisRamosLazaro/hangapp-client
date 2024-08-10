@@ -5,7 +5,7 @@ class UserService {
     private api = createApiClient(`${import.meta.env.VITE_API_URL}/users`)
 
     getAllUsers() {
-        return this.api.get(`/getAllUsers`)
+        return this.api.get(`/all-users`)
 
     }
     getOneUser(id: string) {

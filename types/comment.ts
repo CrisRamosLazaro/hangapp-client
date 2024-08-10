@@ -3,7 +3,6 @@ import { User } from "./user"
 export interface CommentCreationData {
     content: string
     owner: string
-    spotId: string
 }
 
 export interface CommentData {

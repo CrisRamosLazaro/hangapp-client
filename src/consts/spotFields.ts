@@ -23,7 +23,7 @@ const spotFields = [
         placeholder: 'image',
         type: "text",
         autoComplete: "off",
-        id: "spotImg",
+        id: "",
         placeholderIcon: '',
     },
     {

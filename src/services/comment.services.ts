@@ -5,8 +5,8 @@ class CommentServices {
 
     private api = createApiClient(`${import.meta.env.VITE_API_URL}/spots`)
 
-    createComment(commentData: CommentCreationData) {
-        return this.api.post(`/create-comment`, commentData)
+    createComment(spot_id: string, commentData: CommentCreationData) {
+        return this.api.post(`/${spot_id}/create-comment`, commentData)
     }
 
     getAllSpotsComments(spot_id: string) {

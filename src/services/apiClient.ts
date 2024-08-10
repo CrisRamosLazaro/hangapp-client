@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
-import { useNavigate } from 'react-router-dom'
 
 const createApiClient = (baseURL: string): AxiosInstance => {
 

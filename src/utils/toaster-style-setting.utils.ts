@@ -1,6 +1,6 @@
 import logoDark from '@/assets/logo.png'
 import logoWhite from '@/assets/logo-white.png'
-import { ToasterVariant } from 'types/toaster'
+import { ToasterVariant } from 'types/messageContext'
 
 const getVariantStyles = (variant: ToasterVariant) => {
     switch (variant) {

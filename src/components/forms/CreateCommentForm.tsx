@@ -14,7 +14,6 @@ const CreateCommentForm: React.FC<CreateCommentFormProps> = ({ refreshCommentFee
     const [commentData, setCommentData] = useState<CommentCreationData>({
         content: '',
         owner: user!._id,
-        spotId: spot_id!
     })
 
     const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -25,7 +24,7 @@ const CreateCommentForm: React.FC<CreateCommentFormProps> = ({ refreshCommentFee
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         commentServices
-            .createComment(commentData)
+            .createComment(spot_id!, commentData)
             .then(() => {
                 setCommentData({ ...commentData, content: '' })
                 refreshCommentFeed()

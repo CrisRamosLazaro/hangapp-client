@@ -65,7 +65,7 @@ const CreateSpotForm = () => {
     }
 
     const handlePhotoChange = (selectedUrl: string) => {
-        setSpotData({ ...spotData, spotImg: selectedUrl })
+        setSpotData({ ...spotData, heroImg: selectedUrl })
     }
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -186,7 +186,7 @@ const CreateSpotForm = () => {
                                         id={id}
                                         onChange={handleInputChange}
                                     />
-                                    {(id === 'spotImg' && spotData[id] !== '') && (
+                                    {(id === 'heroImg' && spotData[id] !== '') && (
                                         <>
                                             <div className="shadow-md outline-none p-2 rounded-md">
                                                 <div className="h-[250px] overflow-hidden relative rounded-md" >

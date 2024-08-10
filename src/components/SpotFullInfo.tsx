@@ -9,7 +9,7 @@ import SpotOwnerRatingCard from './cards/SpotOwnerRatingCard'
 import Button from './atoms/Button'
 import ButtonDelete from './atoms/ButtonDelete'
 
-const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, photoOptions, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
+const SpotFullInfo: React.FC<SpotFullData> = ({ name, heroImg, photoOptions, description, owner, address, categories, phone, openHours, userReview, userRating }) => {
 
     const { user } = useContext(AuthContext)
     const { spot_id } = useParams()
@@ -34,7 +34,7 @@ const SpotFullInfo: React.FC<SpotFullData> = ({ name, spotImg, photoOptions, des
             <div className="w-full rounded-t-lg h-[350px] overflow-hidden relative">
                 <img
                     className="w-full rounded-t-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 "
-                    src={spotImg}
+                    src={heroImg}
                     alt={description}
                 />
             </div>

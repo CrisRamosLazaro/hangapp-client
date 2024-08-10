@@ -1,14 +1,5 @@
-import { createContext, useState, ReactNode } from 'react'
-import { ToasterVariant } from 'types/toaster'
-
-interface MessageContextInterface {
-    toastMessage: string
-    emitMessage: (text: string, variant: ToasterVariant) => void
-    showToast: boolean
-    isHiding: boolean
-    closeMessage: () => void
-    variant: ToasterVariant
-}
+import { createContext, useState } from 'react'
+import { MessageContextInterface, MessageProviderWrapperProps, ToasterVariant } from 'types/messageContext'
 
 const defaultState: MessageContextInterface = {
     toastMessage: '',
@@ -17,11 +8,6 @@ const defaultState: MessageContextInterface = {
     isHiding: false,
     closeMessage: () => { },
     variant: 'regular'
-}
-
-
-interface MessageProviderWrapperProps {
-    children: ReactNode
 }
 
 const MessageContext = createContext<MessageContextInterface>(defaultState)

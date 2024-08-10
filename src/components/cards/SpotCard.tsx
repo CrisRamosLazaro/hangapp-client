@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { SpotFullData } from 'types/spot'
 import Button from '@/components/atoms/Button'
 
-const SpotCard: React.FC<SpotFullData> = ({ address, categories, spotImg, description, name, userRating, _id }) => {
+const SpotCard: React.FC<SpotFullData> = ({ address, categories, heroImg, description, name, userRating, _id }) => {
 
     const categoriesEnum = categories?.join(', ')
 
@@ -14,7 +14,7 @@ const SpotCard: React.FC<SpotFullData> = ({ address, categories, spotImg, descri
             >
                 <img
                     className="object-cover w-full h-full"
-                    src={spotImg}
+                    src={heroImg}
                     alt={description}
                 />
             </div>

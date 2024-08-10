@@ -1,1 +1,0 @@
-export type ToasterVariant = 'success' | 'danger' | 'regular'
