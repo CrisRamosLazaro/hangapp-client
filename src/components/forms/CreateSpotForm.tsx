@@ -6,8 +6,8 @@ import FormField from "@/components/form-fields/FormField"
 import CheckboxFormField from "@/components/form-fields/CheckBoxFormField"
 import spotFields from "@/consts/spotFields"
 import { initialValues } from "@/consts/spotFormInitialValues"
-import { SpotCreationData } from "types/spot"
 import PlacesAutocomplete, { geocodeByAddress } from 'react-places-autocomplete'
+import { SpotCreationData } from "types/spot"
 import RatingStars from "../RatingStars"
 import Loader from "../Loader"
 

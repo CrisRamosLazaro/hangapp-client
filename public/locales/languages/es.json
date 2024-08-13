@@ -7,6 +7,7 @@
     "email_already_exists": "Este email ya existe",
     "email_not_found": "Email no encontrado",
     "email_required": "Email es obligatorio",
+    "error_joining_the_group": "Error al unirse al grupo",
     "first_name": "primer nombre",
     "first_name_required": "El primer nombre es obligatorio",
     "internal_server_error": "Error interno del servidor",
@@ -25,6 +26,7 @@
     "provide_email_and_password": "Facilitar email y contraseña",
     "session_expired": "Sesión caducada. Por favor, inicia sesión otra vez",
     "signup": "Crear cuenta",
+    "success_you_joined_the_group": "Bien! Te has unido al grupo!",
     "this_field_is_required": "Campo obligatorio",
     "welcome_back": "Hola de nuevo!",
     "wrong_password": "Contraseña incorrecta"

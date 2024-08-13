@@ -8,9 +8,14 @@ export interface GroupCreationData {
     [key: string]: any
 }
 
-export interface GroupCardProps
-    extends Omit<GroupCreationData, 'owner'> {
+export interface GroupData
+    extends Omit<GroupCreationData, 'owner' | 'members'> {
     owner: User
+    members: User[]
+}
+
+export interface GroupCardProps
+    extends GroupData {
     refreshListOfGroups: () => void
 
 }

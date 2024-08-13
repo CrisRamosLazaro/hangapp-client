@@ -1,18 +1,38 @@
+import { useContext, useState, useEffect } from "react"
+import { useNavigate, Link } from "react-router-dom"
+import { AuthContext } from "@/contexts/auth.context"
+import groupServices from "@/services/group.services"
 import { GroupCardProps } from "types/group"
+import ButtonDelete from "../atoms/ButtonDelete"
 import star from "@/assets/icons/star-full.svg"
 import door from "@/assets/icons/door.svg"
-import { AuthContext } from "@/contexts/auth.context"
-import { useContext } from "react"
-import ButtonDelete from "../atoms/ButtonDelete"
-import groupServices from "@/services/group.services"
-import { User } from "types/user"
 
 const GroupCard: React.FC<GroupCardProps> = ({ _id, name, description, members, owner, refreshListOfGroups }) => {
 
     const { user } = useContext(AuthContext)
+    const navigate = useNavigate()
+
+    const [isMember, setIsMember] = useState(false)
+
+    useEffect(() => checkMembership(), [])
+
+    const checkMembership = () => {
+        members.some(member => member._id === user._id)
+            ? setIsMember(true)
+            : setIsMember(false)
+    }
+
+    const navigateToGroup = () => {
+        navigate(`/groups/${_id}`)
+    }
+
+    const handleJoinGroup = () => {
+        groupServices.joinGroup(_id, user._id)
+            .then(() => navigateToGroup())
+            .catch(err => console.error(err))
+    }
 
     const handleDeleteGroup = () => {
-
         groupServices.deleteGroup(_id)
             .then(() => refreshListOfGroups())
             .catch(err => console.error(err))
@@ -30,14 +50,33 @@ const GroupCard: React.FC<GroupCardProps> = ({ _id, name, description, members, 
                     {description}
                 </p>
             </div>
-            <div className="px-4 py-2">
-                <div className="flex justify-start items-center gap-4">
-                    <p>Join</p>
-                    <img src={door} alt="join this group" className="w-6 h-6" />
-                </div>
+            <div className="px-4">
+
+                {
+                    isMember ? (
+                        <button
+                            onClick={navigateToGroup}
+                            className="flex justify-start items-center gap-4 px-4 py-2 rounded-lg hover:bg-slate-300"
+                        >
+                            <p>Enter</p>
+                            <img src={door} alt="join this group" className="w-6 h-6" />
+                        </button>
+                    ) : (
+                        <button
+                            onClick={handleJoinGroup}
+                            className="flex justify-start items-center gap-4"
+                        >
+                            <p>Join</p>
+                            <img src={door} alt="join this group" className="w-6 h-6" />
+                        </button>
+                    )
+                }
+
+
+
                 <div className="px-4 py-2">
                     <p className="text-left pb-2"> Members:</p>
-                    {members.map((member: User, i: string) => {
+                    {members.map((member, i) => {
                         const { firstName, lastName, avatar, role } = member
                         return (
                             <div
@@ -53,7 +92,10 @@ const GroupCard: React.FC<GroupCardProps> = ({ _id, name, description, members, 
                                 </div>
                                 <p>{firstName} {lastName}</p>
                                 {role === 'ORGANIZER' && (
-                                    <img src={star} className="w-8 h-8" />
+                                    <img src={star} className="w-4 h-4" />
+                                )}
+                                {owner._id === user._id && (
+                                    <img src={star} className="w-4 h-4" />
                                 )}
                             </div>
                         )

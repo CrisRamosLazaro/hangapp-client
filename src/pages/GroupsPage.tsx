@@ -23,20 +23,28 @@ const GroupsPage = () => {
         }
     }
 
-
     return (
         <div className='flex flex-col justify-center items-center min-h-full'>
             <CreateGroupForm refreshListOfGroups={fetchAllGroups} />
             <hr className="w-full border-t-2 border-gray-300 my-4" />
+
             <Chat />
             <hr className="w-full border-t-2 border-gray-300 my-4" />
+
             <div className="flex flex-col p-2">
                 <h1 className="font-bold">Browse groups</h1>
                 <div className='flex justify-between items-center gap-5'>
-                    {allGroupsData.map((group, i) => (
-                        <GroupCard {...group} refreshListOfGroups={fetchAllGroups}
-                            key={i} />
-                    ))}
+
+                    {allGroupsData.map((group, i) => {
+                        const { _id } = group
+                        return (
+                            <GroupCard
+                                key={i}
+                                {...group}
+                                refreshListOfGroups={fetchAllGroups} />
+                        )
+                    })
+                    }
                 </div>
 
             </div>

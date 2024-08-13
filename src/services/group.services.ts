@@ -13,6 +13,14 @@ class GroupServices {
         return this.api.get('/all-groups')
     }
 
+    getOneGroup(group_id: string) {
+        return this.api.get(`/${group_id}`)
+    }
+
+    joinGroup(group_id: string, user_id: string) {
+        return this.api.put(`/${group_id}/join`, { user_id })
+    }
+
     deleteGroup(group_id: string) {
         return this.api.delete(`/${group_id}/delete`)
     }
