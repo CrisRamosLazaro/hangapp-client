@@ -8,6 +8,7 @@
     "email_not_found": "Email not found",
     "email_required": "Email is required",
     "error_joining_the_group": "Error joining the group",
+    "error_leaving_the_group": "Error leaving the group",
     "first_name": "first name",
     "first_name_required": "First name is required",
     "internal_server_error": "Internal server error",
@@ -27,7 +28,9 @@
     "session_expired": "Session expired. Please log in again.",
     "signup": "Sign up",
     "success_you_joined_the_group": "Success! You've joined the group!",
+    "success_you_left_the_group": "Success! You've left the group!",
     "this_field_is_required": "This field is required",
+    "unexpected_error": "An unexpected error occurred",
     "welcome_back": "Welcome back!",
     "wrong_password": "Wrong password"
 }

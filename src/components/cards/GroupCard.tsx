@@ -1,7 +1,9 @@
 import { useContext, useState, useEffect } from "react"
-import { useNavigate, Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { AuthContext } from "@/contexts/auth.context"
+import { MessageContext } from "@/contexts/message.context"
 import groupServices from "@/services/group.services"
+import { checkMembership } from "@/utils/checkMembership"
 import { GroupCardProps } from "types/group"
 import ButtonDelete from "../atoms/ButtonDelete"
 import star from "@/assets/icons/star-full.svg"
@@ -10,26 +12,33 @@ import door from "@/assets/icons/door.svg"
 const GroupCard: React.FC<GroupCardProps> = ({ _id, name, description, members, owner, refreshListOfGroups }) => {
 
     const { user } = useContext(AuthContext)
+    const { emitMessage } = useContext(MessageContext)
     const navigate = useNavigate()
 
     const [isMember, setIsMember] = useState(false)
 
-    useEffect(() => checkMembership(), [])
-
-    const checkMembership = () => {
-        members.some(member => member._id === user._id)
-            ? setIsMember(true)
-            : setIsMember(false)
-    }
+    useEffect(() => {
+        setIsMember(checkMembership(members, user._id))
+    }, [members, user._id])
 
     const navigateToGroup = () => {
         navigate(`/groups/${_id}`)
     }
 
-    const handleJoinGroup = () => {
-        groupServices.joinGroup(_id, user._id)
-            .then(() => navigateToGroup())
-            .catch(err => console.error(err))
+    const handleJoinGroup = async () => {
+        try {
+            const res = await groupServices.joinGroup(_id, user._id)
+            const { message } = res.data
+            if (res.status === 200) {
+                emitMessage(message, "success")
+                navigateToGroup()
+            } else {
+                emitMessage(message, "danger")
+            }
+        } catch (err) {
+            emitMessage("unexpected_error", "danger")
+            console.error(err)
+        }
     }
 
     const handleDeleteGroup = () => {

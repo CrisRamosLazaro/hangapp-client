@@ -8,6 +8,7 @@
     "email_not_found": "Email no encontrado",
     "email_required": "Email es obligatorio",
     "error_joining_the_group": "Error al unirse al grupo",
+    "error_leaving_the_group": "Error al salir del grupo",
     "first_name": "primer nombre",
     "first_name_required": "El primer nombre es obligatorio",
     "internal_server_error": "Error interno del servidor",
@@ -27,7 +28,9 @@
     "session_expired": "Sesión caducada. Por favor, inicia sesión otra vez",
     "signup": "Crear cuenta",
     "success_you_joined_the_group": "Bien! Te has unido al grupo!",
+    "success_you_left_the_group": "Bien! Has salido del grupo!",
     "this_field_is_required": "Campo obligatorio",
+    "unexpected_error": "Ocurrió un error inesperado",
     "welcome_back": "Hola de nuevo!",
     "wrong_password": "Contraseña incorrecta"
 }

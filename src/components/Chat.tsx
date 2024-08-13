@@ -1,18 +1,18 @@
 import { io } from 'socket.io-client'
 import { useEffect, useState, ChangeEvent } from 'react'
+import { ChatProps } from 'types/chat'
 
 
 const socket = io(import.meta.env.VITE_SOCKET_CHAT_URL, {
     transports: ['websocket', 'polling'],
 })
 
-const Chat = () => {
+const Chat: React.FC<ChatProps> = ({ groupId, userId }) => {
 
     const [room, setRoom] = useState("")
 
     const [message, setMessage] = useState("")
-    const [messagesReceived, setMessagesReceived] = useState("")
-    // const [messagesReceived, setMessagesReceived] = useState([])
+    const [messagesReceived, setMessagesReceived] = useState<string[]>([])
 
 
     useEffect(() => {
@@ -20,9 +20,10 @@ const Chat = () => {
         //     console.log('Connected to server with ID:', socket.id)
         // })
 
-        socket.on("receive_message", data => {
-            setMessagesReceived(data.message)
+        socket.emit("join_room", groupId)
 
+        socket.on("receive_message", data => {
+            setMessagesReceived(prevMessages => [...prevMessages, data.message]);
         })
 
         // socket.on('disconnect', () => {
@@ -33,11 +34,12 @@ const Chat = () => {
             console.error('Connection Error:', err)
         })
 
-        // return () => {
-        //     socket.off('connect')
-        //     socket.off('disconnect')
-        //     socket.off('connect_error')
-        // }
+        return () => {
+            // socket.off('connect')
+            // socket.off('disconnect')
+            socket.off('receive_message')
+            socket.off('connect_error')
+        }
     }, [socket])
 
     const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -50,25 +52,36 @@ const Chat = () => {
         }
     }
 
-    const sendMessage = () => {
-        socket.emit("chat_message", { message, room })
+    // const sendMessage = () => {
+    //     socket.emit("chat_message", { message, room })
+    // }
+
+    const sendMessage = (e: React.FormEvent) => {
+        e.preventDefault()
+        socket.emit("chat_message", { message, room: groupId, userId })
+        setMessage("")
     }
 
     return (
-        <form  >
+        <form onSubmit={sendMessage}>
             <input
                 placeholder='write_your_message'
+                value={message}
                 onChange={handleInputChange}
 
             />
             <button
                 type="submit"
-                onClick={sendMessage}
+                className=""
             >
                 SEND!
             </button>
             <h1>Message:</h1>
-            <p>{messagesReceived}</p>
+            <div>
+                {messagesReceived.map((msg, i) => (
+                    <p key={i}>{msg}</p>
+                ))}
+            </div>
         </form>
     )
 }
