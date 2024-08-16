@@ -1,5 +1,8 @@
 import { io } from 'socket.io-client'
-import { useEffect, useState, ChangeEvent } from 'react'
+import { useEffect, useState, ChangeEvent, useContext } from 'react'
+import { MessageContext } from '@/contexts/message.context'
+import chatServices from '@/services/chat.services'
+import ChatHistory from './ChatHistory'
 import { ChatProps } from 'types/chat'
 
 
@@ -9,6 +12,8 @@ const socket = io(import.meta.env.VITE_SOCKET_CHAT_URL, {
 
 const Chat: React.FC<ChatProps> = ({ groupId, userId }) => {
 
+    const { emitMessage } = useContext(MessageContext)
+
     const [room, setRoom] = useState("")
 
     const [message, setMessage] = useState("")
@@ -16,27 +21,30 @@ const Chat: React.FC<ChatProps> = ({ groupId, userId }) => {
 
 
     useEffect(() => {
-        // socket.on('connection', () => {
-        //     console.log('Connected to server with ID:', socket.id)
-        // })
 
         socket.emit("join_room", groupId)
 
-        socket.on("receive_message", data => {
-            setMessagesReceived(prevMessages => [...prevMessages, data.message]);
+        socket.on('connection', () => {
+            emitMessage('you_re_connected', 'success')
+            console.log('Connected to server with ID:', socket.id)
         })
 
-        // socket.on('disconnect', () => {
-        //     console.log('Disconnected from server')
-        // })
+        socket.on("receive_message", data => {
+            setMessagesReceived(prevMessages => [...prevMessages, data.message])
+        })
+
+        socket.on('disconnect', () => {
+            emitMessage('you_re_disconnected', 'danger')
+            console.log('Disconnected from server')
+        })
 
         socket.on('connect_error', (err) => {
             console.error('Connection Error:', err)
         })
 
         return () => {
-            // socket.off('connect')
-            // socket.off('disconnect')
+            socket.off('connection')
+            socket.off('disconnect')
             socket.off('receive_message')
             socket.off('connect_error')
         }
@@ -46,43 +54,47 @@ const Chat: React.FC<ChatProps> = ({ groupId, userId }) => {
         setMessage(e.target.value)
     }
 
-    const joinRoom = () => { //implement room made of _ids of 2 users / setRoom automatically on chat window?
-        if (room !== "") {
-            socket.emit("join_room", room)
+    const sendMessage = async (e: React.FormEvent) => {
+        e.preventDefault()
+
+        try {
+            socket.emit("chat_message", { message, room: groupId, userId })
+
+            const createdMsg = { content: message, owner: userId }
+            await chatServices.createChatMsg(groupId, createdMsg)
+            setMessage("")
+
+        } catch (err) {
+            emitMessage('couldnt_send_message', 'danger')
+            console.error(err)
         }
     }
 
-    // const sendMessage = () => {
-    //     socket.emit("chat_message", { message, room })
-    // }
-
-    const sendMessage = (e: React.FormEvent) => {
-        e.preventDefault()
-        socket.emit("chat_message", { message, room: groupId, userId })
-        setMessage("")
-    }
-
     return (
-        <form onSubmit={sendMessage}>
-            <input
-                placeholder='write_your_message'
-                value={message}
-                onChange={handleInputChange}
-
-            />
-            <button
-                type="submit"
-                className=""
-            >
-                SEND!
-            </button>
-            <h1>Message:</h1>
+        <div>
+            <ChatHistory groupId={groupId} />
             <div>
                 {messagesReceived.map((msg, i) => (
-                    <p key={i}>{msg}</p>
+                    <div key={i}>
+                        {msg}
+                    </div>
                 ))}
             </div>
-        </form>
+            <form onSubmit={sendMessage}>
+                <input
+                    placeholder='write_your_message'
+                    value={message}
+                    onChange={handleInputChange}
+
+                />
+                <button
+                    type="submit"
+                    className=""
+                >
+                    SEND!
+                </button>
+            </form>
+        </div>
     )
 }
 
