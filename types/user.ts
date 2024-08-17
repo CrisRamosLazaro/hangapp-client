@@ -1,3 +1,5 @@
+import { SpotFullData } from "./spot"
+
 export type Role = 'ADMIN' | 'ORGANIZER' | 'MEMBER'
 
 export interface UserSignupData {
@@ -22,6 +24,6 @@ export interface User {
     lastName: string
     avatar: string
     role: Role
-    faveSpots: string[]
+    faveSpots: SpotFullData[]
     [key: string]: any
 }

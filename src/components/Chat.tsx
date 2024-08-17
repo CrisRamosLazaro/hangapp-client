@@ -1,9 +1,12 @@
 import { io } from 'socket.io-client'
 import { useEffect, useState, ChangeEvent, useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { MessageContext } from '@/contexts/message.context'
 import chatServices from '@/services/chat.services'
 import ChatHistory from './ChatHistory'
-import { ChatProps } from 'types/chat'
+import ChatCard from './cards/ChatCard'
+import Button from './atoms/Button'
+import { ChatProps, ChatMsg } from 'types/chat'
 
 
 const socket = io(import.meta.env.VITE_SOCKET_CHAT_URL, {
@@ -13,11 +16,12 @@ const socket = io(import.meta.env.VITE_SOCKET_CHAT_URL, {
 const Chat: React.FC<ChatProps> = ({ groupId, userId }) => {
 
     const { emitMessage } = useContext(MessageContext)
+    const { t } = useTranslation()
 
     const [room, setRoom] = useState("")
 
     const [message, setMessage] = useState("")
-    const [messagesReceived, setMessagesReceived] = useState<string[]>([])
+    const [messagesReceived, setMessagesReceived] = useState<ChatMsg[]>([])
 
 
     useEffect(() => {
@@ -30,7 +34,7 @@ const Chat: React.FC<ChatProps> = ({ groupId, userId }) => {
         })
 
         socket.on("receive_message", data => {
-            setMessagesReceived(prevMessages => [...prevMessages, data.message])
+            setMessagesReceived((prevMessages) => [...prevMessages, data])
         })
 
         socket.on('disconnect', () => {
@@ -75,24 +79,26 @@ const Chat: React.FC<ChatProps> = ({ groupId, userId }) => {
             <ChatHistory groupId={groupId} />
             <div>
                 {messagesReceived.map((msg, i) => (
-                    <div key={i}>
-                        {msg}
-                    </div>
+                    <ChatCard
+                        key={i}
+                        content={msg.content}
+                        owner={msg.owner}
+                        createdAt={msg.createdAt}
+                    />
                 ))}
             </div>
             <form onSubmit={sendMessage}>
                 <input
-                    placeholder='write_your_message'
+                    placeholder={t('write_your_message')}
                     value={message}
                     onChange={handleInputChange}
+                    className="px-2 rounded-lg mr-4 h-10"
 
                 />
-                <button
+                <Button
+                    text={t("send")}
                     type="submit"
-                    className=""
-                >
-                    SEND!
-                </button>
+                />
             </form>
         </div>
     )

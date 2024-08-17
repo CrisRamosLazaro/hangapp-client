@@ -7,9 +7,11 @@ import { checkMembership } from "@/utils/checkMembership"
 import { groupInitialValues } from "@/consts/groupInitialValues"
 import { GroupData } from "types/group"
 import { User } from "types/user"
+import { SpotFullData } from "types/spot"
 import Chat from "@/components/Chat"
 import Button from "@/components/atoms/Button"
 import door from "@/assets/icons/door.svg"
+import SpotCard from "@/components/cards/SpotCard"
 
 const InsideGroupPage = () => {
 
@@ -58,7 +60,14 @@ const InsideGroupPage = () => {
         }
     }
 
-    const { name, description, members } = groupData
+    const { name, description, members, owner } = groupData
+    const groupSpots: SpotFullData[] = []
+
+    members.map(member => {
+        if (member.faveSpots.length !== 0) {
+            member.faveSpots.map(spot => groupSpots.push(spot))
+        }
+    })
 
     return (
         !isAuthorized ? (
@@ -66,30 +75,44 @@ const InsideGroupPage = () => {
 
         ) : (
             <div className="flex flex-col justify-center items-center w-full h-full">
-                <h1 className="font-bold text-2xl">{name}</h1>
-                <p>{description}</p>
 
-                <div className="flex flex-col items-start p-4 w-1/2 border border-gray-500">
-                    <p>Members:</p>
-                    {members.map(member => {
-                        const { _id, firstName, lastName, avatar } = member
-                        return (
-                            <div key={_id} className="flex justify-start gap-4 items-center">
-                                <div className="flex flex-shrink-0 items-center justify-center w-12 h-12 overflow-hidden relative rounded-full">
-                                    <img
-                                        className="w-auto h-auto min-w-full min-h-full object-cover transform scale-125"
-                                        src={avatar}
-                                        alt={`${firstName} ${lastName}`}
-                                    />
-                                </div>
-                                <p>{firstName}</p>
-                            </div>
-                        )
-                    })}
+                <div className="w-full px-8">
+                    <h1 className="font-bold text-2xl text-left">{name}</h1>
+                    <p className="text-left mt-2">{members.length} members</p>
                 </div>
-                <div className="flex flex-col items-start p-4 w-1/2 border border-gray-500">
-                    <p>Messages:</p>
-                    <Chat groupId={group_id!} userId={user._id} />
+
+                <div className="w-full px-8 border border-gray-500 mt-4">
+                    <p className="text-left">Spots</p>
+                    <div className="w-1/4">
+                        {groupSpots.map((spot, i) => (
+                            <SpotCard {...spot} key={i} />
+                        ))}
+                    </div>
+                </div>
+
+                <div className="w-full px-8 flex justify-between">
+                    <div className="flex flex-col items-start p-4 w-1/2 border border-gray-500">
+                        <p>Members:</p>
+                        {members.map(member => {
+                            const { _id, firstName, lastName, avatar } = member
+                            return (
+                                <div key={_id} className="flex justify-start gap-4 items-center">
+                                    <div className="flex flex-shrink-0 items-center justify-center w-12 h-12 overflow-hidden relative rounded-full">
+                                        <img
+                                            className="w-auto h-auto min-w-full min-h-full object-cover transform scale-125"
+                                            src={avatar}
+                                            alt={`${firstName} ${lastName}`}
+                                        />
+                                    </div>
+                                    <p>{firstName}</p>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className="flex flex-col items-start p-4 w-1/2 border border-gray-500">
+                        <p>Messages:</p>
+                        <Chat groupId={group_id!} userId={user._id} />
+                    </div>
                 </div>
 
                 <button

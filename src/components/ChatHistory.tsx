@@ -1,5 +1,6 @@
-import { useEffect, useState, ChangeEvent, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import chatServices from '@/services/chat.services'
+import ChatCard from './cards/ChatCard'
 import { ChatHistoryProps, ChatMsg } from 'types/chat'
 
 
@@ -21,34 +22,17 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ groupId }) => {
         }
     }
 
-    const formatDate = (dateString: Date) => {
-        const date = new Date(dateString)
-
-        const day = date.getDate()
-        const month = date.toLocaleString('default', { month: 'short' })
-        const year = date.getFullYear()
-        const hours = date.getHours().toString().padStart(2, '0')
-        const minutes = date.getMinutes().toString().padStart(2, '0')
-
-        return `${day} ${month} ${year} - ${hours}:${minutes}`
-    }
-
 
     return (
         <div>
-            {chatHistory.map((msg, i) => {
-                const { content, owner, createdAt } = msg
-                const { firstName, lastName, avatar } = owner
-                return (
-                    <div key={i} className="border-b border-b-slate-500">
-                        <div className="flex justify-between">
-                            <p>By: {firstName} {lastName}</p>
-                            <p>At: {formatDate(createdAt)}</p>
-                        </div>
-                        <p>{content}</p>
-                    </div>
-                )
-            })}
+            {chatHistory.map((msg, i) => (
+                <ChatCard
+                    key={i}
+                    content={msg.content}
+                    owner={msg.owner}
+                    createdAt={msg.createdAt}
+                />
+            ))}
         </div>
     )
 }

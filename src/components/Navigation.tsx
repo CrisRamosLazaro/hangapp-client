@@ -24,7 +24,6 @@ const Navigation = () => {
 
     const navLinks = [
         { path: "/spots", label: "Spots" },
-        { path: "/spots/create-spot", label: "Create a Spot" },
         { path: "/groups/", label: "Groups" },
         { path: "/groups/match", label: "Connect Groups" },
     ]

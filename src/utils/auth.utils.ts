@@ -20,13 +20,13 @@ export const getSignupRedirectPath = (role: Role) => {
 export const getLoginRedirectPath = (role: Role) => {
     switch (role) {
         case 'MEMBER':
-            return '/spots'
+            return '/groups'
         case 'ORGANIZER':
-            return '/spots'
+            return '/groups' //my-groups
         case 'ADMIN':
-            return '/spots'
+            return '/dashboard'
         default:
-            return '/spots'
+            return '/groups'
     }
 }
 
