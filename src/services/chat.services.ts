@@ -9,8 +9,8 @@ class ChatServices {
         return this.api.post(`/${group_id}/new-msg`, msgData)
     }
 
-    getAllChatMsgs(group_id: string) {
-        return this.api.get(`/${group_id}`)
+    getAllChatMsgs(group_id: string, page: number) {
+        return this.api.get(`/${group_id}?page=${page}`)
     }
 
 }
